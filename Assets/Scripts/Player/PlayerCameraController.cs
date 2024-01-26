@@ -17,5 +17,8 @@ public class PlayerCameraController : MonoBehaviour
         camera = GetComponentInChildren<Camera>();
     }
 
-
+    private void Update()
+    {
+        pivot.rotation = Quaternion.identity;
+    }
 }
