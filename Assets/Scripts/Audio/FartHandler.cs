@@ -7,7 +7,7 @@ namespace CodeKriebels.Audio
     {
         internal static FartHandler Instance { get; private set; }
 
-        internal enum FartSize
+        public enum FartSize
         {
             Small, Medium, Large
         }

@@ -3,6 +3,7 @@ namespace CodeKriebels.Player
     using CodeKriebels.Audio;
     using System.Collections;
     using UnityEngine;
+    using UnityEngine.Events;
 
     public class PlayerFart : MonoBehaviour
     {
@@ -25,6 +26,8 @@ namespace CodeKriebels.Player
 
         internal Player parent;
 
+        public UnityEvent<FartHandler.FartSize> onEpicFartDooDoo;
+
 
         private void Awake()
         {
@@ -38,6 +41,8 @@ namespace CodeKriebels.Player
                 yield return new WaitForSeconds(Random.Range(fartInterval.x, fartInterval.y));
 
                 ExecuteFart(FartHandler.FartSize.Small);
+
+                onEpicFartDooDoo?.Invoke(FartHandler.FartSize.Small);
             }
         }
 
