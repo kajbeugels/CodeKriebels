@@ -11,4 +11,8 @@ public class PlayerSettings : ScriptableObject
     public float friction = 1.0f;
     public float rotateSpeed = 10.0f;
     public int maxPlayers = 4;
+
+    public float bounceTime = 1.0f;
+    public float stunTime = 1.0f;
+
 }
