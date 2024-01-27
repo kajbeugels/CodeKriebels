@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
     private PlayerInput playerInput;
     public Vector3 Offset;
+    public Rigidbody Rigidbody;
 
     private GameManager gameManager;
     private Vector3 inputDirection;
@@ -28,6 +29,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanApplyInput => moveState == PlayerMoveState.None;
     private Vector2 GetMoveInput => playerInput.actions.FindAction("Move").ReadValue<Vector2>();
+
+
+    private Vector3 latestForward;
 
     private void Awake()
     {
@@ -87,61 +91,27 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (CanApplyInput)
+        Vector2 input = GetMoveInput;
+        Vector3 peop = Vector3.zero;
+
+        if (input.magnitude > 0.1f)
         {
-            var moveAction = GetMoveInput;
+            float angle = Mathf.Atan2(input.y, -input.x) * Mathf.Rad2Deg;
+            Vector3 f = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            Vector3 forward = Quaternion.Euler(Offset) * f * gameManager.playerSettings.maxVelocity;
 
-            if (moveAction.magnitude > 0.05f && CanApplyInput)
-            {
-                inputDirection = new Vector3(moveAction.x * 0.77f, 0, moveAction.y).normalized;
-                inputDirection = Quaternion.Euler(Offset) * inputDirection;
-                    
-                Debug.DrawLine(transform.position, transform.position + inputDirection, Color.red);
+            float d = Mathf.Clamp01(Vector3.Dot(Rigidbody.velocity, f.normalized));
+            latestForward = forward * (1 - d);
 
-                var angleBetween = Vector3.SignedAngle(inputDirection, transform.forward, Vector3.up);
 
-                var rotationInput = -angleBetween / 180f;
-
-                if (float.IsNaN(rotationInput)) rotationInput = 0;
-
-                playerRotation *= Quaternion.Euler(0, rotationInput, 0);
-            }
-
-            var maxVelocity = gameManager.playerSettings.maxVelocity;
-            var acceleration = gameManager.playerSettings.acceleration;
-            var decceleration = gameManager.playerSettings.decceleration;
-            var friction = gameManager.playerSettings.friction;
-            var rotateSpeed = gameManager.playerSettings.rotateSpeed;
-
-            var moveDirection = playerRotation * inputDirection;
-
-            moveDirection = moveDirection.normalized;
-
-            var desiredSpeed = moveDirection.magnitude * maxVelocity;
-            var dot = Vector3.Dot(moveDirection, moveVector);
-
-            var speed = (float)Mathf.Sqrt(moveVector.x * moveVector.x + moveVector.z * moveVector.z);
-            var speedMul = speed - (speed < decceleration ? decceleration : speed) * friction * Time.deltaTime;
-
-            if (speedMul < 0) speedMul = 0;
-            if (speed > 0) speedMul /= speed;
-
-            if (CanApplyInput) moveVector *= speedMul;
-
-            var velAdd = desiredSpeed - dot;
-            var velMul = acceleration * Time.deltaTime * desiredSpeed;
-
-            if (velMul > velAdd) velMul = velAdd;
-
-            if (CanApplyInput) moveVector += moveDirection * velMul;
+            Rigidbody.MoveRotation(Quaternion.LookRotation(latestForward, Vector3.up));
+            peop = latestForward;
+            //latestForward = latestForward.normalized * Mathf.Max(latestForward.magnitude, 1);
         }
 
-        print(CanApplyInput);
-
-        characterController.Move(transform.InverseTransformVector(moveVector) * Time.deltaTime);
-        transform.rotation = playerRotation;
+        Rigidbody.AddForce(peop, ForceMode.VelocityChange);
     }
 
 }
