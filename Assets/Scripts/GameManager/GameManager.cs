@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     [Header("References")]
 
-    [SerializeField,Tooltip("Reference to the player input manager, that is in control of player input")]
+    [SerializeField, Tooltip("Reference to the player input manager, that is in control of player input")]
     private PlayerInputManager playerInputManager;
 
     [SerializeField, Tooltip("Reference to the Canvas gameObject containing the Main menu UI")]
@@ -47,6 +47,10 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("Timeline sequence in control of the sequencing of the game outro after a player wins")]
     private TimelineAsset gameOutroSequence;
 
+    /// <summary>
+    /// Determines the current state of the game-flow
+    /// </summary>
+    internal GameState currentGameState = GameState.CharacterSelection;
 
     /// <summary>
     /// Called on the first active frame, starts the timeline for character selection
@@ -55,6 +59,9 @@ public class GameManager : MonoBehaviour
     {
         //Set singleton instance
         instance = this;
+
+        //Set state to intro
+        currentGameState = GameState.CharacterSelection;
 
         //Start timeline sequence for camera-panning movement over the scene used in the character selection screen
         timelineDirector.Play(selectionScreenSequence, DirectorWrapMode.Loop);
@@ -68,8 +75,11 @@ public class GameManager : MonoBehaviour
     /// Starts the game intro-sequence
     /// </summary>
     [ContextMenu("Start Game")]
-    private void StartGameIntro()
+    internal void StartGameIntro()
     {
+        //Set state to intro
+        currentGameState = GameState.Intro;
+
         //Disable menu UI
         mainMenuCanvas.SetActive(false);
 
@@ -82,11 +92,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartGameplay()
     {
+        //Set state to gameplay
+        currentGameState = GameState.Gameplay;
+
         //Disable the main camera
-        //mainMenuCamera.gameObject.SetActive(false);
+        mainMenuCamera.gameObject.SetActive(false);
 
         //Start the game-start sequence with count-down to actual game-start
         timelineDirector.Play(gameStartSequence, DirectorWrapMode.Hold);
+
+        //Loop over all players and enable the cameras of each player
+        for (int i = 0; i < PlayerManager.Instance.players.Count; i++)
+        {
+            //Enable camera for each player
+            PlayerManager.Instance.players[i].Input.camera.enabled = true;
+        }
     }
 
     /// <summary>
@@ -94,7 +114,13 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void OnGameplayCountdownFinished()
     {
-      //Enable input for all players @maarten
+        //Loop over all players and enable the cameras of each player
+        for (int i = 0; i < PlayerManager.Instance.players.Count; i++)
+        {
+            //Enable camera for each player
+            PlayerManager.Instance.players[i].Input.enabled = true;
+            PlayerManager.Instance.players[i].Movement.enabled = true;
+        }
     }
 
     /// <summary>
@@ -102,6 +128,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     internal void EndGameplay(Player winningPlayer)
     {
+        //Set state to intro
+        currentGameState = GameState.Outro;
+
         //Loop over all players, disable all losing players and enable the winning player
 
         //Start timeline sequence for the game outro
@@ -115,6 +144,17 @@ public class GameManager : MonoBehaviour
     {
         //Reload this scene
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    /// <summary>
+    /// Enum for determening the current gamestate
+    /// </summary>
+    public enum GameState
+    {
+        CharacterSelection = 0,
+        Intro = 1,
+        Gameplay = 2,
+        Outro = 3,
     }
 
 }

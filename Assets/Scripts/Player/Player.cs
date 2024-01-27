@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     public Color color;
+    public PlayerInput Input;
+    public PlayerMovement PlayerMovement;
 
-    private PlayerMovement playerMovement;
+
     private PlayerCameraController playerCameraController;
     private PlayerController playerController;
 
-    public PlayerMovement Movement => playerMovement;
+    public PlayerMovement Movement => PlayerMovement;
     public PlayerCameraController CameraController => playerCameraController;
     public PlayerController Controller => playerController;
 
 
     private void Awake()
     {
-        playerMovement = GetComponentInChildren<PlayerMovement>();
         playerCameraController = GetComponentInChildren<PlayerCameraController>();
         playerController = GetComponentInChildren<PlayerController>();
     }
