@@ -14,6 +14,11 @@ public class Telephone : MonoBehaviour
 
     private void Start()
     {
+        if (TimerManager.Instance)
+        {
+            Debug.LogError("No timerManager found");
+        }
+
         TimerManager.Instance.AddTimer(ToggleRinging, Random.Range(minTime, maxTime));
     }
 
