@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1b67cd096f026f4fa83a5f697b14fc6, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  maxVelocity: 15
-  acceleration: 0.25
-  decceleration: 1
+  maxVelocity: 5
+  acceleration: 5
+  decceleration: 5
   friction: 1
-  rotateSpeed: 180
+  rotateSpeed: 1800
   maxPlayers: 4

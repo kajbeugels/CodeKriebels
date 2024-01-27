@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private InputActions inputActions;
 
     private GameManager gameManager;
+    public Vector3 inputDirection;
     public Vector3 moveVector;
+    public Quaternion playerRotation;
 
     private Vector2 GetMoveInput => playerInput.actions.FindAction("Move").ReadValue<Vector2>();
 
@@ -20,11 +23,19 @@ public class PlayerMovement : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+
+        inputDirection = transform.forward;
+        playerRotation = transform.rotation;
     }
 
     private void Update()
     {
         var moveAction = GetMoveInput;
+
+        if (moveAction.magnitude > 0.05f)
+        {
+            inputDirection = new Vector3(moveAction.x, 0, moveAction.y);
+        }
 
         var maxVelocity = gameManager.playerSettings.maxVelocity;
         var acceleration = gameManager.playerSettings.acceleration;
@@ -32,14 +43,18 @@ public class PlayerMovement : MonoBehaviour
         var friction = gameManager.playerSettings.friction;
         var rotateSpeed = gameManager.playerSettings.rotateSpeed;
 
-        var rotationInput = moveAction.x;
+        var angleBetween = Vector3.SignedAngle(inputDirection, transform.forward, Vector3.up);
 
-        var playerRotation = Quaternion.Euler(0, rotationInput, 0);
-        var moveDirection = playerRotation * transform.forward;
+        var rotationInput = -angleBetween / 180f;// Mathf.Sqrt(angleBetween / 180f) * angleSign;
+
+        if (float.IsNaN(rotationInput)) rotationInput = 0;
+
+        playerRotation *= Quaternion.Euler(0, rotationInput, 0);
+        var moveDirection = playerRotation * inputDirection;
 
         moveDirection = moveDirection.normalized;
 
-        var moveSpeed = moveDirection.magnitude * maxVelocity;
+        var desiredSpeed = moveDirection.magnitude * maxVelocity;
         var dot = Vector3.Dot(moveDirection, moveVector);
 
         var speed = (float)Mathf.Sqrt(moveVector.x * moveVector.x + moveVector.z * moveVector.z);
@@ -50,21 +65,19 @@ public class PlayerMovement : MonoBehaviour
 
         moveVector *= speedMul;
 
-        var velAdd = moveSpeed - dot;
-        var velMul = acceleration * Time.deltaTime * moveSpeed;
+        var velAdd = desiredSpeed - dot;
+        var velMul = acceleration * Time.deltaTime * desiredSpeed;
 
         if (velMul > velAdd) velMul = velAdd;
 
         moveVector += moveDirection * velMul;
 
-        if (moveVector.y > -0.5f) moveVector.y = -0.5f; // Make sure there is always a little gravity to keep the character on the ground.    }
-    
-        characterController.Move(moveVector * Time.deltaTime);
-
-        transform.Rotate(new Vector3(0, rotationInput * rotateSpeed * Time.deltaTime,0), Space.Self);
-
-
+        characterController.Move(transform.InverseTransformVector(moveVector) * Time.deltaTime);
+        transform.rotation = playerRotation;
+  
+        Debug.DrawLine(transform.position, transform.position + inputDirection, Color.yellow, Time.deltaTime);
         Debug.DrawLine(transform.position, transform.position + transform.forward, Color.red, Time.deltaTime);
+        Debug.DrawLine(transform.position, transform.position + transform.InverseTransformVector(moveVector), Color.green, Time.deltaTime);
     }
 
 }
