@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Enviroment.meta
+guid: ad8806eb32c15204682c0b1553987610
+folderAsset: yes
+DefaultImporter:
+========
+guid: cf66a01d36b4c6f4cb8034982f973a5b
+NativeFormatImporter:
+>>>>>>>> origin/develop:Assets/Materials/Dev/Obstacle.mat.meta
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

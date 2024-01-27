@@ -84,6 +84,7 @@ public class PlayerManager : MonoBehaviour
         PlayerToSprite pts = Instantiate(playerVisualsPrefab);
         pts.forwardReference = p.transform;
         p.Fart = pts.GetComponentInChildren<PlayerFart>();
+        p.Fart.parent = p;
 
         //Inform user when they can start the game
         pressStartToPlayText.gameObject.SetActive(players.Count >= 2);
