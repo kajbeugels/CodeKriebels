@@ -787,21 +787,71 @@ MonoBehaviour:
   rightFeetRenderer: {fileID: 2027847113821317738}
   leftHandRenderer: {fileID: 6375157370216900542}
   rightHandRenderer: {fileID: 5199180469932756848}
-  headSprites:
-  - {fileID: 21300000, guid: 835c569608e0d07499916731a2e1bac5, type: 3}
-  - {fileID: 21300000, guid: 5086986cd550fe94c89f89dff8e0fa55, type: 3}
-  - {fileID: 21300000, guid: a7c7103d3a70da14eac65240f066f60a, type: 3}
-  - {fileID: 21300000, guid: e0ec8f8f76db8484ca8c19643df5ee70, type: 3}
-  bodySprites:
-  - {fileID: 21300000, guid: 153316c432d9c6146b8117f3a70dc56c, type: 3}
-  - {fileID: 21300000, guid: ff9ae1f9ca8c5a54d8078c84d5c0cc84, type: 3}
-  - {fileID: 21300000, guid: 169087c5bad072c4ba288eb97fa27a6f, type: 3}
-  - {fileID: 21300000, guid: 4c10b28fe008c744b86263d786fd1aea, type: 3}
-  tieSprites:
-  - {fileID: 21300000, guid: e62118e5d1c65aa4ba62e4b32843f5ea, type: 3}
-  - {fileID: 0}
-  - {fileID: 21300000, guid: f230be16b6ced9846a01d1414fe29132, type: 3}
-  - {fileID: 0}
+  spritePackages:
+  - <HeadSprites>k__BackingField:
+    - {fileID: 21300000, guid: 835c569608e0d07499916731a2e1bac5, type: 3}
+    - {fileID: 21300000, guid: 5086986cd550fe94c89f89dff8e0fa55, type: 3}
+    - {fileID: 21300000, guid: a7c7103d3a70da14eac65240f066f60a, type: 3}
+    - {fileID: 21300000, guid: e0ec8f8f76db8484ca8c19643df5ee70, type: 3}
+    <BodySprites>k__BackingField:
+    - {fileID: 21300000, guid: 153316c432d9c6146b8117f3a70dc56c, type: 3}
+    - {fileID: 21300000, guid: ff9ae1f9ca8c5a54d8078c84d5c0cc84, type: 3}
+    - {fileID: 21300000, guid: 169087c5bad072c4ba288eb97fa27a6f, type: 3}
+    - {fileID: 21300000, guid: 4c10b28fe008c744b86263d786fd1aea, type: 3}
+    <TieSprites>k__BackingField:
+    - {fileID: 21300000, guid: e62118e5d1c65aa4ba62e4b32843f5ea, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: f230be16b6ced9846a01d1414fe29132, type: 3}
+    - {fileID: 0}
+    <HandSprite>k__BackingField: {fileID: 21300000, guid: bfc328c3c8e3b09479e13cd75c12ee99, type: 3}
+  - <HeadSprites>k__BackingField:
+    - {fileID: 21300000, guid: bf065addf52df58418b74e76601be595, type: 3}
+    - {fileID: 21300000, guid: f641906b75cd7024a99be33b06d7bb91, type: 3}
+    - {fileID: 21300000, guid: 64b176d6a6038014eada9f310b6f97b6, type: 3}
+    - {fileID: 21300000, guid: 86c057bd0f184054b8bdb99be248bfaf, type: 3}
+    <BodySprites>k__BackingField:
+    - {fileID: 21300000, guid: 153316c432d9c6146b8117f3a70dc56c, type: 3}
+    - {fileID: 21300000, guid: ff9ae1f9ca8c5a54d8078c84d5c0cc84, type: 3}
+    - {fileID: 21300000, guid: 169087c5bad072c4ba288eb97fa27a6f, type: 3}
+    - {fileID: 21300000, guid: 4c10b28fe008c744b86263d786fd1aea, type: 3}
+    <TieSprites>k__BackingField:
+    - {fileID: 21300000, guid: e62118e5d1c65aa4ba62e4b32843f5ea, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: f230be16b6ced9846a01d1414fe29132, type: 3}
+    - {fileID: 0}
+    <HandSprite>k__BackingField: {fileID: 21300000, guid: bfc328c3c8e3b09479e13cd75c12ee99, type: 3}
+  - <HeadSprites>k__BackingField:
+    - {fileID: 21300000, guid: 41d6d532eb4b4844d9ec82af641e73a3, type: 3}
+    - {fileID: 21300000, guid: d22697579044866409cc946a215dc459, type: 3}
+    - {fileID: 21300000, guid: 0d8c5c757e8cc854095cf8dd221f84b2, type: 3}
+    - {fileID: 21300000, guid: 802cd9a998a551e4fb2c7efa4ab9ca35, type: 3}
+    <BodySprites>k__BackingField:
+    - {fileID: 21300000, guid: 153316c432d9c6146b8117f3a70dc56c, type: 3}
+    - {fileID: 21300000, guid: ff9ae1f9ca8c5a54d8078c84d5c0cc84, type: 3}
+    - {fileID: 21300000, guid: 169087c5bad072c4ba288eb97fa27a6f, type: 3}
+    - {fileID: 21300000, guid: 4c10b28fe008c744b86263d786fd1aea, type: 3}
+    <TieSprites>k__BackingField:
+    - {fileID: 21300000, guid: e62118e5d1c65aa4ba62e4b32843f5ea, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: f230be16b6ced9846a01d1414fe29132, type: 3}
+    - {fileID: 0}
+    <HandSprite>k__BackingField: {fileID: 21300000, guid: f4811e74c3f817a488b24b141c094370, type: 3}
+  - <HeadSprites>k__BackingField:
+    - {fileID: 21300000, guid: 466cfbae61255704f964597c37152454, type: 3}
+    - {fileID: 21300000, guid: 3412e37fc515af04eac0dd4f0418e49f, type: 3}
+    - {fileID: 21300000, guid: 1bebe31a051f8904b9aa67e01a5d5015, type: 3}
+    - {fileID: 21300000, guid: f1677f7e3df600a4d899a6c74acace98, type: 3}
+    <BodySprites>k__BackingField:
+    - {fileID: 21300000, guid: 153316c432d9c6146b8117f3a70dc56c, type: 3}
+    - {fileID: 21300000, guid: ff9ae1f9ca8c5a54d8078c84d5c0cc84, type: 3}
+    - {fileID: 21300000, guid: 169087c5bad072c4ba288eb97fa27a6f, type: 3}
+    - {fileID: 21300000, guid: 4c10b28fe008c744b86263d786fd1aea, type: 3}
+    <TieSprites>k__BackingField:
+    - {fileID: 21300000, guid: e62118e5d1c65aa4ba62e4b32843f5ea, type: 3}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: f230be16b6ced9846a01d1414fe29132, type: 3}
+    - {fileID: 0}
+    <HandSprite>k__BackingField: {fileID: 21300000, guid: bfc328c3c8e3b09479e13cd75c12ee99, type: 3}
 --- !u!1 &8488681910280165142
 GameObject:
   m_ObjectHideFlags: 0

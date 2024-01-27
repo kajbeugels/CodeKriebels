@@ -18,7 +18,7 @@ public class PlayerCameraController : MonoBehaviour
         camera = GetComponentInChildren<Camera>();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         pivot.rotation = Quaternion.Euler(DesiredAngles);
     }
