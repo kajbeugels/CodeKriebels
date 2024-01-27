@@ -5,17 +5,7 @@ namespace CodeKriebels.Audio
 
     public class FartHandler : MonoBehaviour
     {
-        private static FartHandler instance;
-        internal static FartHandler Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new FartHandler();
-
-                return instance;
-            }
-        }
+        internal static FartHandler Instance { get; private set; }
 
         internal enum FartSize
         {
@@ -57,6 +47,11 @@ namespace CodeKriebels.Audio
         }
 
 #endif
+
+        private void Awake()
+        {
+            Instance = GetComponent<FartHandler>();
+        }
 
         /// <summary>
         /// Plays a fart through the audio source.
