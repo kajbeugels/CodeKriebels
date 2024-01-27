@@ -9,6 +9,7 @@ namespace CodeKriebels.Player
         public PlayerInput Input;
         public PlayerMovement PlayerMovement;
         internal PlayerFart Fart;
+        internal PlayerAss Ass;
 
         private Gamepad currentVibratingGamepad;
 

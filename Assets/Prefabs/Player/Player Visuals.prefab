@@ -327,13 +327,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1238201522168557042}
   - component: {fileID: 438226040759532825}
+  - component: {fileID: 3643773439114167852}
   m_Layer: 0
   m_Name: Ass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1238201522168557042
 Transform:
   m_ObjectHideFlags: 0
@@ -374,6 +375,27 @@ MonoBehaviour:
   fartMovement: 0.5
   maxFart: 1
   noFartTime: 1
+--- !u!95 &3643773439114167852
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2526897607245361786}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c4014cbdf5f6bbc42b394a9c5eae2c88, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3148745872162395639
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,6 +898,11 @@ MonoBehaviour:
     - {fileID: 21300000, guid: f230be16b6ced9846a01d1414fe29132, type: 3}
     - {fileID: 0}
     <HandSprite>k__BackingField: {fileID: 21300000, guid: bfc328c3c8e3b09479e13cd75c12ee99, type: 3}
+  <Animator>k__BackingField: {fileID: 3643773439114167852}
+  walkingAnimationSpeedMagnitude: {x: 1, y: 3}
+  EDITOR_enableEditorDirection: 0
+  EDITOR_direction: 0
+  EDITOR_walkingSpeed: 1
 --- !u!1 &8488681910280165142
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public enum PlayerMoveState : int
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController characterController;
+    internal CharacterController CharacterController { get; private set; }
     private PlayerInput playerInput;
     public Vector3 Offset;
     public Rigidbody Rigidbody;
@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        characterController = GetComponent<CharacterController>();
+        CharacterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
 
         inputDirection = transform.forward;

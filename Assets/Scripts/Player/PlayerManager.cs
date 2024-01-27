@@ -69,6 +69,14 @@ public class PlayerManager : MonoBehaviour
         pressStartToPlayText.gameObject.SetActive(false);
     }
 
+#if UNITY_EDITOR
+    [Button]
+    private void EDITOR_JoinDummyPlayer()
+    {
+        PlayerInputManager.instance.JoinPlayer();
+    }
+#endif
+
     private void OnPlayerJoined(PlayerInput obj)
     {
         if (GameManager.Instance.currentGameState != GameManager.GameState.CharacterSelection)
@@ -89,6 +97,8 @@ public class PlayerManager : MonoBehaviour
 
         p.Fart = pts.GetComponentInChildren<PlayerFart>();
         p.Fart.parent = p;
+
+        p.Ass = pts.GetComponentInChildren<PlayerAss>();
 
         //Inform user when they can start the game
         pressStartToPlayText.gameObject.SetActive(players.Count >= 2);

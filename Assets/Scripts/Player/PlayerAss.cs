@@ -1,6 +1,3 @@
-using CodeKriebels.Audio;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAss : MonoBehaviour
@@ -24,11 +21,9 @@ public class PlayerAss : MonoBehaviour
     private Vector3 rightStartPos;
 
 
-    public void DoFart ()
+    public void DoFart()
     {
         fart += Random.Range(minFartLength, maxFartLength);
-
-        print(fart);
     }
 
     private void Awake()
@@ -37,7 +32,7 @@ public class PlayerAss : MonoBehaviour
         rightStartPos = rightCheek.localPosition;
     }
 
-    private void Update ()
+    private void Update()
     {
         var fartSin = (1f + Mathf.Sin(Time.timeSinceLevelLoad * vibrationSpeed)) / 2f * fart;
         var fartCos = (1f + Mathf.Cos(Time.timeSinceLevelLoad * vibrationSpeed)) / 2f * fart;

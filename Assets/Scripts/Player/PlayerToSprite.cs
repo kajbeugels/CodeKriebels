@@ -52,6 +52,13 @@ public class PlayerToSprite : MonoBehaviour
 
     private int usingSpritePackageIndex;
 
+    [field: SerializeField, Tooltip("A reference to the player animator.")]
+    internal Animator Animator { get; private set; }
+
+    [SerializeField, Tooltip("The range of the walking animation speed magnitude.")]
+    private Vector2 walkingAnimationSpeedMagnitude = new Vector2(1, 3);
+
+    private Vector3 lastPosition;
 
     /// <summary>
     /// Enum direction value
@@ -64,16 +71,51 @@ public class PlayerToSprite : MonoBehaviour
         SW//South-west
     }
 
+#if UNITY_EDITOR
+    [SerializeField]
+    private bool EDITOR_enableEditorDirection;
+
+    [SerializeField]
+    private Direction EDITOR_direction;
+#endif
+
+#if UNITY_EDITOR
+    public float EDITOR_walkingSpeed = 1;
+#endif
+
+
+    private void Update()
+    {
+        if (Animator)
+        {
+            float magnitude = (lastPosition - transform.position).magnitude;
+
+            Animator.SetFloat("WalkSpeed", Mathf.Clamp(magnitude, walkingAnimationSpeedMagnitude.x, walkingAnimationSpeedMagnitude.y));
+            Animator.SetBool("IsWalking", magnitude > 0);
+        }
+
+        lastPosition = transform.position;
+    }
+
     /// <summary>
     /// Called each frame, used for updating visuals
     /// </summary>
     public void LateUpdate()
     {
         //Get the current heading direction
-        Direction current = GetCurrentDirection();
+        Direction current = Direction.NW;
+
+#if UNITY_EDITOR
+        if (EDITOR_enableEditorDirection)
+            current = EDITOR_direction;
+        else
+            current = GetCurrentDirection();
+#endif
+
         int index = (int)current;
 
-        transform.position = forwardReference.transform.position;
+        if (forwardReference != null)
+            transform.position = forwardReference.transform.position;
 
         //Assign sprite based on direction
         headRenderer.sprite = spritePackages[usingSpritePackageIndex].HeadSprites[index];
