@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class WaterReserviour : MonoBehaviour
 {
+    [SerializeField]
+    private float stunTime;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.root.TryGetComponent(out PlayerMovement playerMovement))
         {
-            playerMovement.DoStun();
+            playerMovement.DoStun(stunTime);
         }
     }
 }

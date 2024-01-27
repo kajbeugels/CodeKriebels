@@ -433,7 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6995053991203483213}
   m_Layer: 9
-  m_Name: Telephone (1)
+  m_Name: Telephone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
