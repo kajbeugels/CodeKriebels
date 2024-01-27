@@ -14,6 +14,7 @@ public class Telephone : MonoBehaviour
 
     private void Start()
     {
+        
         if (TimerManager.Instance)
         {
             Debug.LogError("No timerManager found");
@@ -31,9 +32,8 @@ public class Telephone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isRinging && other.TryGetComponent(out Player player))
+        if (isRinging && other.TryGetComponent(out PlayerMovement player))
         {
-            
         }
     }
 }
