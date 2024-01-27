@@ -1,5 +1,6 @@
 namespace CodeKriebels.UI.Menu
 {
+    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.InputSystem;
@@ -10,35 +11,26 @@ namespace CodeKriebels.UI.Menu
         [SerializeField, Tooltip("All the controller icons being managed.")]
         private ControllerIcon[] controllerIcons;
 
-        private Dictionary<InputDevice, bool> inputDevices = new Dictionary<InputDevice, bool>();
 
-
-        private void Awake()
+        private IEnumerator Start()
         {
-            InputSystem.onDeviceChange += OnDeviceChange;
+            while (PlayerInputManager.instance == null)
+                yield return null;
 
-            for (int i = 0; i < InputSystem.devices.Count; i++)
-                OnDeviceChange(InputSystem.devices[i], InputDeviceChange.Added);
-        }
-
-        private void OnDeviceChange(InputDevice inputDevice, InputDeviceChange inputDeviceChange)
-        {
-            if (inputDeviceChange == InputDeviceChange.Added || inputDeviceChange == InputDeviceChange.Reconnected || inputDeviceChange == InputDeviceChange.Enabled)
-            {
-                if (!inputDevices.ContainsKey(inputDevice))
-                    inputDevices.Add(inputDevice, true);
-
-                inputDevices[inputDevice] = true;
-            }
-            else if (inputDeviceChange == InputDeviceChange.Removed || inputDeviceChange == InputDeviceChange.Disabled)
-                inputDevices[inputDevice] = false;
+            PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
+            PlayerInputManager.instance.onPlayerLeft += OnPlayerLeft;
 
             UpdateControllerIcons();
         }
 
-        private void OnDestroy()
+        private void OnPlayerLeft(PlayerInput obj)
         {
-            InputSystem.onDeviceChange -= OnDeviceChange;
+            UpdateControllerIcons();
+        }
+
+        private void OnPlayerJoined(PlayerInput obj)
+        {
+            UpdateControllerIcons();
         }
 
         /// <summary>
@@ -49,9 +41,9 @@ namespace CodeKriebels.UI.Menu
             int i = 0;
 
             // First control the icons.
-            foreach (KeyValuePair<InputDevice, bool> inputDevice in inputDevices)
+            while (i < PlayerInputManager.instance.playerCount)
             {
-                controllerIcons[i].ToggleControllerIcon(inputDevice.Value);
+                controllerIcons[i].ToggleControllerIcon(true);
                 i++;
             }
 
