@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerInput playerInput;
+    public Vector3 Offset;
 
     private GameManager gameManager;
     private Vector3 inputDirection;
@@ -49,12 +50,12 @@ public class PlayerMovement : MonoBehaviour
         moveState &= ~PlayerMoveState.Stunned;
     }
 
-    private IEnumerator BounceCoroutine (Vector3 normal)
+    private IEnumerator BounceCoroutine(Vector3 normal)
     {
         moveState |= PlayerMoveState.Bounce;
 
         inputDirection = Vector3.Reflect(inputDirection.normalized, normal);
-        playerRotation = Quaternion.Euler(0,0,0);
+        playerRotation = Quaternion.Euler(0, 0, 0);
         moveVector = inputDirection * moveVector.magnitude;
 
         transform.rotation = Quaternion.LookRotation(inputDirection.normalized, Vector3.up);
@@ -64,14 +65,14 @@ public class PlayerMovement : MonoBehaviour
         moveState &= ~PlayerMoveState.Bounce;
     }
 
-    public void DoStun ()
+    public void DoStun()
     {
         if (currentStunCoroutine != null) StopCoroutine(currentStunCoroutine);
 
         currentStunCoroutine = StartCoroutine(StunCoroutine());
     }
 
-    private void DoBounce (Vector3 normal)
+    private void DoBounce(Vector3 normal)
     {
         if (currentBounceCoroutine != null) StopCoroutine(currentBounceCoroutine);
 
@@ -95,6 +96,9 @@ public class PlayerMovement : MonoBehaviour
             if (moveAction.magnitude > 0.05f && CanApplyInput)
             {
                 inputDirection = new Vector3(moveAction.x * 0.77f, 0, moveAction.y).normalized;
+                inputDirection = Quaternion.Euler(Offset) * inputDirection;
+                    
+                Debug.DrawLine(transform.position, transform.position + inputDirection, Color.red);
 
                 var angleBetween = Vector3.SignedAngle(inputDirection, transform.forward, Vector3.up);
 

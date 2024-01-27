@@ -16,5 +16,7 @@ MonoBehaviour:
   acceleration: 5
   decceleration: 5
   friction: 1
-  rotateSpeed: 1800
+  rotateSpeed: 90000000
   maxPlayers: 4
+  bounceTime: 1
+  stunTime: 1
