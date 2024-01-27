@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerInput playerInput;
-    private InputActions inputActions;
 
     private GameManager gameManager;
     public Vector3 inputDirection;
