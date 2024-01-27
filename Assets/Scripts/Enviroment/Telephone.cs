@@ -8,30 +8,29 @@ public class Telephone : MonoBehaviour
 
 
     [SerializeField]
-    private int minTime;
+    private float minRingTime;
     [SerializeField]
-    private int maxTime;
+    private float maxRingTime;
 
     [SerializeField]
-    private int minTelephoneTime; 
+    private float minTelephoneTime; 
     [SerializeField]
-    private int maxTelephoneTime;
+    private float maxTelephoneTime;
 
     private void Start()
     {
-        
         if (TimerManager.Instance)
         {
             Debug.LogError("No timerManager found");
         }
 
-        TimerManager.Instance.AddTimer(ToggleRinging, Random.Range(minTime, maxTime));
+        TimerManager.Instance.AddTimer(ToggleRinging, Random.Range(minRingTime, maxRingTime));
     }
 
     private void ToggleRinging()
     {
         isRinging = !isRinging;
-        TimerManager.Instance.AddTimer(ToggleRinging, Random.Range(minTime, maxTime));
+        TimerManager.Instance.AddTimer(ToggleRinging, Random.Range(minRingTime, maxRingTime));
     }
 
 
