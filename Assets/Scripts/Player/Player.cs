@@ -6,7 +6,6 @@ namespace CodeKriebels.Player
 
     public class Player : MonoBehaviour
     {
-        public Color color;
         public PlayerInput Input;
         public PlayerMovement PlayerMovement;
         internal PlayerFart Fart;
