@@ -53,7 +53,7 @@ public class PlayerToSprite : MonoBehaviour
     /// <summary>
     /// Called each frame, used for updating visuals
     /// </summary>
-    public void Update()
+    public void LateUpdate()
     {
         //Get the current heading direction
         Direction current = GetCurrentDirection();
