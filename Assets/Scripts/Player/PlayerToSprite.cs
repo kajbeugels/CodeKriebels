@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -30,14 +31,27 @@ public class PlayerToSprite : MonoBehaviour
     [SerializeField, Tooltip("Reference to the hand sprite renderers")]
     private SpriteRenderer leftHandRenderer, rightHandRenderer;
 
-    [SerializeField, Tooltip("Head sprites for each direction")]
-    private Sprite[] headSprites;
+    [Serializable]
+    internal struct SpritePackage
+    {
+        [field: SerializeField, Tooltip("Head sprites for each direction")]
+        internal Sprite[] HeadSprites { get; private set; }
 
-    [SerializeField, Tooltip("Head sprites for each direction")]
-    private Sprite[] bodySprites;
+        [field: SerializeField, Tooltip("Head sprites for each direction")]
+        internal Sprite[] BodySprites { get; private set; }
 
-    [SerializeField, Tooltip("Tie sprites for each direction")]
-    private Sprite[] tieSprites;
+        [field: SerializeField, Tooltip("Tie sprites for each direction")]
+        internal Sprite[] TieSprites { get; private set; }
+
+        [field: SerializeField, Tooltip("Hand sprites for each direction.")]
+        internal Sprite HandSprite { get; private set; }
+    }
+
+    [SerializeField, Tooltip("All the sprite packages belonging to this player.")]
+    private SpritePackage[] spritePackages;
+
+    private int usingSpritePackageIndex;
+
 
     /// <summary>
     /// Enum direction value
@@ -62,9 +76,10 @@ public class PlayerToSprite : MonoBehaviour
         transform.position = forwardReference.transform.position;
 
         //Assign sprite based on direction
-        headRenderer.sprite = headSprites[index];
-        bodyRenderer.sprite = bodySprites[index];
-        tieRenderer.sprite = tieSprites[index];
+        headRenderer.sprite = spritePackages[usingSpritePackageIndex].HeadSprites[index];
+        bodyRenderer.sprite = spritePackages[usingSpritePackageIndex].BodySprites[index];
+        tieRenderer.sprite = spritePackages[usingSpritePackageIndex].TieSprites[index];
+        leftHandRenderer.sprite = rightHandRenderer.sprite = spritePackages[usingSpritePackageIndex].HandSprite;
 
         //Hand logic
         if (current == Direction.NE)
@@ -132,6 +147,15 @@ public class PlayerToSprite : MonoBehaviour
             tieRenderer.gameObject.transform.localPosition = localTiePositionRight;
             tieRenderer.gameObject.SetActive(true);
         }
+    }
+
+    /// <summary>
+    /// Changes the sprite package index and thus changes the character.
+    /// </summary>
+    /// <param name="spritePackageIndex">The new index</param>
+    internal void ChangeUsingSpritePackage(int spritePackageIndex)
+    {
+        usingSpritePackageIndex = spritePackageIndex;
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 using CodeKriebels.Player;
+using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,6 +37,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     [SerializeField, Tooltip("Reference to text component that shows users they can start the game")]
     internal GameObject pressStartToPlayText;
+
 
     private void Start()
     {
@@ -83,6 +85,8 @@ public class PlayerManager : MonoBehaviour
 
         PlayerToSprite pts = Instantiate(playerVisualsPrefab);
         pts.forwardReference = p.transform;
+        pts.ChangeUsingSpritePackage(p.Input.playerIndex);
+
         p.Fart = pts.GetComponentInChildren<PlayerFart>();
         p.Fart.parent = p;
 
