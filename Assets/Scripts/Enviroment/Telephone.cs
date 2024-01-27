@@ -43,7 +43,7 @@ public class Telephone : MonoBehaviour
         {
             isRinging = !isRinging;
             float time = Random.Range(minStunTime, maxStunTime);
-            player.DoStun(time);
+            //player.DoStun(time);
             TimerManager.Instance.AddTimer(ToggleRinging, time + Random.Range(minRingTime, maxRingTime));
         }
     }

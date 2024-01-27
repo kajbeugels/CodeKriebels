@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (float.IsNaN(rotationInput)) rotationInput = 0;
 
-                playerRotation *= Quaternion.Euler(0, rotationInput, 0);
+                playerRotation *= Quaternion.Euler(0, rotationInput * gameManager.playerSettings.rotateSpeed * Time.deltaTime, 0);
             }
 
             var maxVelocity = gameManager.playerSettings.maxVelocity;

@@ -19,7 +19,7 @@ public class StunInteractable : MonoBehaviour
         if (other.transform.root.TryGetComponent(out PlayerMovement playerMovement))
         {
             startStunning?.Invoke();
-            playerMovement.DoStun(stunTime);
+            //playerMovement.DoStun(stunTime);
             TimerManager.Instance.AddTimer(() => endStunning?.Invoke(),stunTime);
         }
     }
