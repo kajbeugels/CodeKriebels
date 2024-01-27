@@ -39,13 +39,13 @@ public class PlayerMovement : MonoBehaviour
         playerRotation = transform.rotation;
     }
 
-    private IEnumerator StunCoroutine()
+    private IEnumerator StunCoroutine(float time)
     {
         moveState |= PlayerMoveState.Stunned;
 
         moveVector *= 0;
 
-        yield return new WaitForSeconds(gameManager.playerSettings.stunTime);
+        yield return new WaitForSeconds(time);
 
         moveState &= ~PlayerMoveState.Stunned;
     }
@@ -65,11 +65,11 @@ public class PlayerMovement : MonoBehaviour
         moveState &= ~PlayerMoveState.Bounce;
     }
 
-    public void DoStun()
+    public void DoStun(float time)
     {
         if (currentStunCoroutine != null) StopCoroutine(currentStunCoroutine);
 
-        currentStunCoroutine = StartCoroutine(StunCoroutine());
+        currentStunCoroutine = StartCoroutine(StunCoroutine(time));
     }
 
     private void DoBounce(Vector3 normal)
