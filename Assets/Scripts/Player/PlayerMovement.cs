@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerInput playerInput;
+    public Vector3 Offset;
 
     private GameManager gameManager;
     private Vector3 inputDirection;
@@ -38,13 +39,13 @@ public class PlayerMovement : MonoBehaviour
         playerRotation = transform.rotation;
     }
 
-    private IEnumerator StunCoroutine(float stunTime)
+    private IEnumerator StunCoroutine()
     {
-        moveState = PlayerMoveState.Stunned;
+        moveState |= PlayerMoveState.Stunned;
 
         moveVector *= 0;
 
-        yield return new WaitForSeconds(stunTime);
+        yield return new WaitForSeconds(gameManager.playerSettings.stunTime);
 
         moveState &= ~PlayerMoveState.Stunned;
     }
@@ -64,11 +65,11 @@ public class PlayerMovement : MonoBehaviour
         moveState &= ~PlayerMoveState.Bounce;
     }
 
-    public void DoStun(float stunTime)
+    public void DoStun()
     {
         if (currentStunCoroutine != null) StopCoroutine(currentStunCoroutine);
 
-        currentStunCoroutine = StartCoroutine(StunCoroutine(stunTime));
+        currentStunCoroutine = StartCoroutine(StunCoroutine());
     }
 
     private void DoBounce(Vector3 normal)
@@ -95,6 +96,9 @@ public class PlayerMovement : MonoBehaviour
             if (moveAction.magnitude > 0.05f && CanApplyInput)
             {
                 inputDirection = new Vector3(moveAction.x * 0.77f, 0, moveAction.y).normalized;
+                inputDirection = Quaternion.Euler(Offset) * inputDirection;
+                    
+                Debug.DrawLine(transform.position, transform.position + inputDirection, Color.red);
 
                 var angleBetween = Vector3.SignedAngle(inputDirection, transform.forward, Vector3.up);
 
@@ -133,11 +137,11 @@ public class PlayerMovement : MonoBehaviour
 
             if (CanApplyInput) moveVector += moveDirection * velMul;
         }
-        if (!moveState.HasFlag(PlayerMoveState.Stunned))
-        {
-            characterController.Move(transform.InverseTransformVector(moveVector) * Time.deltaTime);
-            transform.rotation = playerRotation;
-        }
+
+        print(CanApplyInput);
+
+        characterController.Move(transform.InverseTransformVector(moveVector) * Time.deltaTime);
+        transform.rotation = playerRotation;
     }
 
 }

@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerCameraController : MonoBehaviour
 {
 
-
-    private Camera camera;
+    internal Camera camera;
     private Transform pivot;
     private GameManager gameManager;
+
+    public Vector3 DesiredAngles;
 
     private void Awake ()
     {
@@ -19,6 +20,6 @@ public class PlayerCameraController : MonoBehaviour
 
     private void Update()
     {
-        pivot.rotation = Quaternion.identity;
+        pivot.rotation = Quaternion.Euler(DesiredAngles);
     }
 }
