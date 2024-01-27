@@ -1,12 +1,22 @@
 namespace CodeKriebels.Audio
 {
     using NaughtyAttributes;
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
     public class FartHandler : MonoBehaviour
     {
+        private static FartHandler instance;
+        internal static FartHandler Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new FartHandler();
+
+                return instance;
+            }
+        }
+
         internal enum FartSize
         {
             Small, Medium, Large
