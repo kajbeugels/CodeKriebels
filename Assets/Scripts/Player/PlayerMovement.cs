@@ -23,9 +23,9 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion playerRotation;
     private Coroutine currentBounceCoroutine;
     private Coroutine currentStunCoroutine;
-    private PlayerMoveState moveState;
+    public PlayerMoveState moveState;
 
-    private bool CanApplyInput => moveState != PlayerMoveState.None;
+    private bool CanApplyInput => moveState == PlayerMoveState.None;
     private Vector2 GetMoveInput => playerInput.actions.FindAction("Move").ReadValue<Vector2>();
 
     private void Awake()
@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator StunCoroutine()
     {
         moveState |= PlayerMoveState.Stunned;
+
+        moveVector *= 0;
 
         yield return new WaitForSeconds(gameManager.playerSettings.stunTime);
 
@@ -59,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(gameManager.playerSettings.bounceTime);
 
-        moveState |= PlayerMoveState.Bounce;
+        moveState &= ~PlayerMoveState.Bounce;
     }
 
     public void DoStun ()
@@ -86,55 +88,53 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (CanApplyInput) {
-            characterController.Move(transform.InverseTransformVector(moveVector) * Time.deltaTime);
-            transform.rotation = playerRotation;
-
-            return;
-        }
-
-        var moveAction = GetMoveInput;
-
-        if (moveAction.magnitude > 0.05f && CanApplyInput)
+        if (CanApplyInput)
         {
-            inputDirection = new Vector3(moveAction.x * 0.77f, 0, moveAction.y).normalized;
+            var moveAction = GetMoveInput;
 
-            var angleBetween = Vector3.SignedAngle(inputDirection, transform.forward, Vector3.up);
+            if (moveAction.magnitude > 0.05f && CanApplyInput)
+            {
+                inputDirection = new Vector3(moveAction.x * 0.77f, 0, moveAction.y).normalized;
 
-            var rotationInput = -angleBetween / 180f;
+                var angleBetween = Vector3.SignedAngle(inputDirection, transform.forward, Vector3.up);
 
-            if (float.IsNaN(rotationInput)) rotationInput = 0;
+                var rotationInput = -angleBetween / 180f;
 
-            playerRotation *= Quaternion.Euler(0, rotationInput, 0);
+                if (float.IsNaN(rotationInput)) rotationInput = 0;
+
+                playerRotation *= Quaternion.Euler(0, rotationInput, 0);
+            }
+
+            var maxVelocity = gameManager.playerSettings.maxVelocity;
+            var acceleration = gameManager.playerSettings.acceleration;
+            var decceleration = gameManager.playerSettings.decceleration;
+            var friction = gameManager.playerSettings.friction;
+            var rotateSpeed = gameManager.playerSettings.rotateSpeed;
+
+            var moveDirection = playerRotation * inputDirection;
+
+            moveDirection = moveDirection.normalized;
+
+            var desiredSpeed = moveDirection.magnitude * maxVelocity;
+            var dot = Vector3.Dot(moveDirection, moveVector);
+
+            var speed = (float)Mathf.Sqrt(moveVector.x * moveVector.x + moveVector.z * moveVector.z);
+            var speedMul = speed - (speed < decceleration ? decceleration : speed) * friction * Time.deltaTime;
+
+            if (speedMul < 0) speedMul = 0;
+            if (speed > 0) speedMul /= speed;
+
+            if (CanApplyInput) moveVector *= speedMul;
+
+            var velAdd = desiredSpeed - dot;
+            var velMul = acceleration * Time.deltaTime * desiredSpeed;
+
+            if (velMul > velAdd) velMul = velAdd;
+
+            if (CanApplyInput) moveVector += moveDirection * velMul;
         }
 
-        var maxVelocity = gameManager.playerSettings.maxVelocity;
-        var acceleration = gameManager.playerSettings.acceleration;
-        var decceleration = gameManager.playerSettings.decceleration;
-        var friction = gameManager.playerSettings.friction;
-        var rotateSpeed = gameManager.playerSettings.rotateSpeed;
-
-        var moveDirection = playerRotation * inputDirection;
-
-        moveDirection = moveDirection.normalized;
-
-        var desiredSpeed = moveDirection.magnitude * maxVelocity;
-        var dot = Vector3.Dot(moveDirection, moveVector);
-
-        var speed = (float)Mathf.Sqrt(moveVector.x * moveVector.x + moveVector.z * moveVector.z);
-        var speedMul = speed - (speed < decceleration ? decceleration : speed) * friction * Time.deltaTime;
-
-        if (speedMul < 0) speedMul = 0;
-        if (speed > 0) speedMul /= speed;
-
-        if (!CanApplyInput) moveVector *= speedMul;
-
-        var velAdd = desiredSpeed - dot;
-        var velMul = acceleration * Time.deltaTime * desiredSpeed;
-
-        if (velMul > velAdd) velMul = velAdd;
-
-        if (!CanApplyInput) moveVector += moveDirection * velMul;
+        print(CanApplyInput);
 
         characterController.Move(transform.InverseTransformVector(moveVector) * Time.deltaTime);
         transform.rotation = playerRotation;

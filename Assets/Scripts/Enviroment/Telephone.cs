@@ -8,9 +8,14 @@ public class Telephone : MonoBehaviour
 
 
     [SerializeField]
-    private int maxTime;
-    [SerializeField]
     private int minTime;
+    [SerializeField]
+    private int maxTime;
+
+    [SerializeField]
+    private int minTelephoneTime; 
+    [SerializeField]
+    private int maxTelephoneTime;
 
     private void Start()
     {
@@ -32,8 +37,11 @@ public class Telephone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isRinging && other.TryGetComponent(out PlayerMovement player))
+        if (isRinging && other.transform.root.TryGetComponent(out PlayerMovement player))
         {
+            isRinging = !isRinging;
+            player.DoStun();
+            TimerManager.Instance.AddTimer(ToggleRinging, Random.Range(minTelephoneTime, maxTelephoneTime));
         }
     }
 }
