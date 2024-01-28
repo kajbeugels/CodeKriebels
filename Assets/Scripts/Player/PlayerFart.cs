@@ -8,6 +8,10 @@ namespace CodeKriebels.Player
     public class PlayerFart : MonoBehaviour
     {
         [Header("References")]
+
+        [SerializeField,Tooltip("Reference to the PlayerToSprite component, used to know the looking direction of the player")]
+        private PlayerToSprite playerToSprite;
+
         [SerializeField, Tooltip("A reference to the particle system.")]
         private ParticleSystem particleSystem;
 
@@ -48,6 +52,23 @@ namespace CodeKriebels.Player
 
         internal void ExecuteFart(FartHandler.FartSize size)
         {
+            PlayerToSprite.Direction direction = playerToSprite.GetCurrentDirection();
+            switch (direction)
+            {
+                case PlayerToSprite.Direction.SE:
+                    particleSystem.transform.localEulerAngles = new Vector3(0,90,0);
+                    break;
+                case PlayerToSprite.Direction.NE:
+                    particleSystem.transform.localEulerAngles = new Vector3(0, 180, 0);
+                    break;
+                case PlayerToSprite.Direction.NW:
+                    particleSystem.transform.localEulerAngles = new Vector3(0, 270, 0);
+                    break;
+                case PlayerToSprite.Direction.SW:
+                    particleSystem.transform.localEulerAngles = new Vector3(0, 0, 0);
+                    break;
+            }
+
             particleSystem.Play();
             FartHandler.Instance.PlayFart(size);
             parent.ExecuteHapticFeedback(hapticLowFrequency, hapticHighFrequency, hapticDuration);

@@ -9,21 +9,18 @@ namespace CodeKriebels.Player
         public PlayerInput Input;
         public PlayerMovement PlayerMovement;
         internal PlayerFart Fart;
+        internal PlayerToSprite PlayerToSprite;
 
         private Gamepad currentVibratingGamepad;
-
         private PlayerCameraController playerCameraController;
-        private PlayerController playerController;
 
         public PlayerMovement Movement => PlayerMovement;
         public PlayerCameraController CameraController => playerCameraController;
-        public PlayerController Controller => playerController;
 
 
         private void Awake()
         {
             playerCameraController = GetComponentInChildren<PlayerCameraController>();
-            playerController = GetComponentInChildren<PlayerController>();
         }
 
         private void OnDestroy()

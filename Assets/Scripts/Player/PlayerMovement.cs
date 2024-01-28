@@ -1,3 +1,4 @@
+using CodeKriebels.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Timeline;
@@ -14,40 +15,36 @@ public enum PlayerMoveState : int
 
 public class PlayerMovement : MonoBehaviour
 {
-    private CharacterController characterController;
+    private PlayerFart playerFarts;
     private PlayerInput playerInput;
     public Vector3 Offset;
     public Rigidbody Rigidbody;
+    public float BounceForce;
+    [SerializeField]
+    private AnimationCurve fartChargeCurve;
+    [SerializeField]
+    private AnimationCurve afterFartStunCurve;
+    public float FartChargeScalar;
 
     private GameManager gameManager;
-    private Vector3 inputDirection;
-    private Vector3 moveVector;
-    private Quaternion playerRotation;
     private Coroutine currentBounceCoroutine;
     private Coroutine currentStunCoroutine;
     public PlayerMoveState moveState;
 
-    private bool CanApplyInput => moveState == PlayerMoveState.None;
     private Vector2 GetMoveInput => playerInput.actions.FindAction("Move").ReadValue<Vector2>();
 
 
-    private Vector3 latestForward;
+    private Vector3 latestMovementDirection;
 
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
-
-        inputDirection = transform.forward;
-        playerRotation = transform.rotation;
     }
-
+    
     private IEnumerator StunCoroutine(float time)
     {
         moveState |= PlayerMoveState.Stunned;
-
-        moveVector *= 0;
 
         yield return new WaitForSeconds(time);
 
@@ -56,18 +53,41 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator BounceCoroutine(Vector3 normal)
     {
-        moveState |= PlayerMoveState.Bounce;
+        moveState = PlayerMoveState.Bounce;
 
-        inputDirection = Vector3.Reflect(inputDirection.normalized, normal);
-        playerRotation = Quaternion.Euler(0, 0, 0);
-        moveVector = inputDirection * moveVector.magnitude;
+        Rigidbody.velocity = Vector3.zero;
+        Rigidbody.AddForce(normal * Mathf.Min(BounceForce, 2.5f), ForceMode.Impulse);
 
-        transform.rotation = Quaternion.LookRotation(inputDirection.normalized, Vector3.up);
+        playerFarts?.ExecuteFart(CodeKriebels.Audio.FartHandler.FartSize.Large);
 
         yield return new WaitForSeconds(gameManager.playerSettings.bounceTime);
 
-        moveState &= ~PlayerMoveState.Bounce;
+        moveState = PlayerMoveState.None;
     }
+
+    private IEnumerator FartChargeCoroutine()
+    {
+        bool inputPressed = playerInput.actions.FindAction("FartCharge").IsPressed();
+        float chargeTime = 0f;
+
+        moveState = PlayerMoveState.Stunned;
+
+        while (inputPressed)
+        {
+            chargeTime += Time.deltaTime;
+            inputPressed = playerInput.actions.FindAction("FartCharge").IsPressed();
+            yield return null;
+        }
+
+        //Get total charge force from curve sampled by time
+        float force = fartChargeCurve.Evaluate(chargeTime) * FartChargeScalar;
+        Rigidbody.AddForce(force * latestMovementDirection.normalized, ForceMode.Impulse);
+        playerFarts.ExecuteFart(CodeKriebels.Audio.FartHandler.FartSize.Large);
+
+        yield return new WaitForSeconds(afterFartStunCurve.Evaluate(chargeTime));
+        moveState = PlayerMoveState.None;
+    }
+
 
     public void DoStun(float time)
     {
@@ -83,35 +103,39 @@ public class PlayerMovement : MonoBehaviour
         currentBounceCoroutine = StartCoroutine(BounceCoroutine(normal));
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    void OnCollisionEnter(Collision coll)
     {
-        if (!moveState.HasFlag(PlayerMoveState.Bounce) && hit.normal.y < 0.5f)
+        if (moveState == PlayerMoveState.Bounce)
+            return;
+
+        Vector3 n = coll.contacts[0].normal;
+        if (!moveState.HasFlag(PlayerMoveState.Bounce) && n.y < 0.5f)
         {
-            DoBounce(hit.normal);
+            DoBounce(n * coll.impulse.magnitude);
         }
     }
 
     private void FixedUpdate()
     {
-        Vector2 input = GetMoveInput;
-        Vector3 peop = Vector3.zero;
+        if (moveState != PlayerMoveState.None)
+            return;
 
-        if (input.magnitude > 0.1f)
+        Vector2 playerInput = GetMoveInput;
+        Vector3 inputVector = Vector3.zero;
+
+        if (playerInput.magnitude > 0.1f)
         {
-            float angle = Mathf.Atan2(input.y, -input.x) * Mathf.Rad2Deg;
-            Vector3 f = Quaternion.Euler(0, angle, 0) * Vector3.forward;
-            Vector3 forward = Quaternion.Euler(Offset) * f * gameManager.playerSettings.maxVelocity;
+            float angle = Mathf.Atan2(playerInput.y, -playerInput.x) * Mathf.Rad2Deg;
+            Vector3 forward = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            Vector3 adjustedForward = Quaternion.Euler(Offset) * forward * gameManager.playerSettings.maxVelocity;
 
-            float d = Mathf.Clamp01(Vector3.Dot(Rigidbody.velocity, f.normalized));
-            latestForward = forward * (1 - d);
+            latestMovementDirection = adjustedForward * (1 - Mathf.Clamp01(Vector3.Dot(Rigidbody.velocity, forward.normalized)));
+            Rigidbody.MoveRotation(Quaternion.LookRotation(latestMovementDirection, Vector3.up));
 
-
-            Rigidbody.MoveRotation(Quaternion.LookRotation(latestForward, Vector3.up));
-            peop = latestForward;
-            //latestForward = latestForward.normalized * Mathf.Max(latestForward.magnitude, 1);
+            inputVector = latestMovementDirection;
         }
 
-        Rigidbody.AddForce(peop, ForceMode.VelocityChange);
+        Rigidbody.AddForce(inputVector, ForceMode.VelocityChange);
     }
 
 }

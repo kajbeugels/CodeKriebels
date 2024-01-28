@@ -27,8 +27,6 @@ public class PlayerAss : MonoBehaviour
     public void DoFart ()
     {
         fart += Random.Range(minFartLength, maxFartLength);
-
-        print(fart);
     }
 
     private void Awake()

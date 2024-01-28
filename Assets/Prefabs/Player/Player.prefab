@@ -103,7 +103,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a2577aa4f20f8d40975c84388e7a7b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
   Input: {fileID: 2897309580787785659}
   PlayerMovement: {fileID: 8768819686732287219}
 --- !u!114 &2232273745703562948
@@ -132,6 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 145, z: 0}
   Rigidbody: {fileID: 6645764818709461995}
+  BounceForce: 20
+  PlayerFarts: {fileID: 0}
   moveState: 0
 --- !u!54 &6645764818709461995
 Rigidbody:
@@ -143,7 +144,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 50
   m_Drag: 5
-  m_AngularDrag: 0.05
+  m_AngularDrag: 2.5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

@@ -9,7 +9,7 @@ public class WinTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Check if player hit the trigger, if so, he wins
-        if (other.GetComponentInChildren<Player>() is Player player)
+        if (other.GetComponent<Player>() is Player player)
             GameManager.Instance.EndGameplay(player);
     }
 }

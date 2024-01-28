@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("Reference to the main-menu camera")]
     private Camera mainMenuCamera;
 
+    [SerializeField,Tooltip("Reference to component which shows player visuals for the winning player")]
+    private PlayerToSprite winningPlayerVisuals;
+
     [Header("Game Sequencing")]
 
     [SerializeField, Tooltip("Timeline director in control of intro")]
@@ -132,7 +135,18 @@ public class GameManager : MonoBehaviour
         //Set state to intro
         currentGameState = GameState.Outro;
 
+        //Re-enable the camera
+        mainMenuCamera.gameObject.SetActive(true);
+
         //Loop over all players, disable all losing players and enable the winning player
+        for (int i = 0; i < PlayerManager.Instance.players.Count; i++)
+        {
+            PlayerManager.Instance.players[i].PlayerMovement.enabled = false;
+            PlayerManager.Instance.players[i].Input.camera.gameObject.SetActive(false);
+        }
+
+        //Transfer the index of sprite package used from the winning player to the winning player visuals
+        winningPlayerVisuals.ChangeUsingSpritePackage(winningPlayer.PlayerToSprite.usingSpritePackageIndex);
 
         //Start timeline sequence for the game outro
         timelineDirector.Play(gameOutroSequence, DirectorWrapMode.Hold);

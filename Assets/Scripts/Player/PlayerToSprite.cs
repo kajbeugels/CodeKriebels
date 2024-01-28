@@ -50,7 +50,7 @@ public class PlayerToSprite : MonoBehaviour
     [SerializeField, Tooltip("All the sprite packages belonging to this player.")]
     private SpritePackage[] spritePackages;
 
-    private int usingSpritePackageIndex;
+    internal int usingSpritePackageIndex;
 
 
     /// <summary>
@@ -73,7 +73,9 @@ public class PlayerToSprite : MonoBehaviour
         Direction current = GetCurrentDirection();
         int index = (int)current;
 
-        transform.position = forwardReference.transform.position;
+        if (forwardReference != null)
+            transform.position = forwardReference.transform.position;
+
 
         //Assign sprite based on direction
         headRenderer.sprite = spritePackages[usingSpritePackageIndex].HeadSprites[index];
@@ -161,9 +163,9 @@ public class PlayerToSprite : MonoBehaviour
     /// <summary>
     /// Returns the current heading direction for this player
     /// </summary>
-    private Direction GetCurrentDirection()
+    public Direction GetCurrentDirection()
     {
-        Vector3 f = forwardReference.forward;
+        Vector3 f = forwardReference ? forwardReference.forward : Vector3.zero;
         float angle = Mathf.Atan2(f.z, f.x) * Mathf.Rad2Deg;
 
         //Clamp angle in 0-360 range

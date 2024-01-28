@@ -26,8 +26,8 @@ MonoBehaviour:
     - {fileID: 5662863857750898762}
   m_InfiniteClipPreExtrapolation: 1
   m_InfiniteClipPostExtrapolation: 1
-  m_InfiniteClipOffsetPosition: {x: 10.573, y: 4.448, z: 3.094}
-  m_InfiniteClipOffsetEulerAngles: {x: 29.999939, y: 238.3411, z: 0.0000059151134}
+  m_InfiniteClipOffsetPosition: {x: -31.752012, y: 1.5129948, z: -0.85900664}
+  m_InfiniteClipOffsetEulerAngles: {x: 29.999943, y: 238.3411, z: 0.0000059151134}
   m_InfiniteClipTimeOffset: 0
   m_InfiniteClipRemoveOffset: 0
   m_InfiniteClipApplyFootIK: 1
@@ -62,7 +62,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 18.850018, y: 16.508823, z: 34.464214}
+        value: {x: -20.924429, y: 1.9268427, z: 2.815382}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -120,7 +120,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 18.850018
+        value: -20.924429
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -141,7 +141,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 16.508823
+        value: 1.9268427
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -162,7 +162,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 34.464214
+        value: 2.815382
         inSlope: 0
         outSlope: 0
         tangentMode: 136
