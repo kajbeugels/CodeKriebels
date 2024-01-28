@@ -5972,6 +5972,12 @@ PlayableDirector:
     value: {fileID: 47863873}
   - key: {fileID: 4544703149914932263, guid: 9d60305f2263fe149a3f47a19e9b650d, type: 2}
     value: {fileID: 491364139}
+  - key: {fileID: -7530797992071098740, guid: 9d60305f2263fe149a3f47a19e9b650d, type: 2}
+    value: {fileID: 1739725249}
+  - key: {fileID: 7226935398361510284, guid: 9d60305f2263fe149a3f47a19e9b650d, type: 2}
+    value: {fileID: 47863873}
+  - key: {fileID: 6361542288990194613, guid: 9d60305f2263fe149a3f47a19e9b650d, type: 2}
+    value: {fileID: 491364138}
   m_ExposedReferences:
     m_References:
     - 66bde1136f0df2c4c9720bbd2f4c0c58: {fileID: 2006977581}
