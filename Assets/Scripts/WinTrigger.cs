@@ -10,6 +10,9 @@ public class WinTrigger : MonoBehaviour
     {
         //Check if player hit the trigger, if so, he wins
         if (other.GetComponent<Player>() is Player player)
+        {
+            Camera.main.GetComponent<CameraSwitcher>().ToggleCameraSettings(true);
             GameManager.Instance.EndGameplay(player);
+        }
     }
 }
