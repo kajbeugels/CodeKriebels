@@ -16,9 +16,9 @@ namespace CodeKriebels.Obstacles
         private IreneVisuals visuals;
 
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collider)
         {
-            if (collision.gameObject.GetComponentInChildren<PlayerMovement>() is PlayerMovement playerMovement)
+            if (collider.gameObject.GetComponentInChildren<PlayerMovement>() is PlayerMovement playerMovement)
             {
                 playerMovement.DoStun(playerStunTime);
 
