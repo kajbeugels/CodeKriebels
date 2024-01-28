@@ -701,6 +701,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 2985263250363929433, guid: 55fc5e17f2f12a7429648165d54315f5, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 3992591141911051316, guid: c2f230270b45891498d69ba9dd6fccb3, type: 2}
     - target: {fileID: 6837405093587956412, guid: 55fc5e17f2f12a7429648165d54315f5, type: 3}
       propertyPath: m_Name
       value: Stun stars
