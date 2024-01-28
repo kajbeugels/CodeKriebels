@@ -711,6 +711,7 @@ GameObject:
   - component: {fileID: 1886137127435513250}
   - component: {fileID: 1179627832283405498}
   - component: {fileID: 4187181657566790876}
+  - component: {fileID: 8181651892211258697}
   m_Layer: 0
   m_Name: Irene Vehicle
   m_TagString: Untagged
@@ -813,7 +814,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStunTime: 3
   speechBubbleDuration: 1
-  visuals: {fileID: 0}
+  visuals: {fileID: 5273631020935867375}
+--- !u!135 &8181651892211258697
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885532102715036177}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.69224787
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7348662183101954339
 GameObject:
   m_ObjectHideFlags: 0
