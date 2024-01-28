@@ -1,10 +1,8 @@
+using CodeKriebels.Audio;
 using CodeKriebels.Player;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public enum PlayerMoveState : int
 {
@@ -15,7 +13,9 @@ public enum PlayerMoveState : int
 
 public class PlayerMovement : MonoBehaviour
 {
-    private PlayerFart playerFarts;
+
+    public Player Player;
+    public PlayerFart playerFarts;
     private PlayerInput playerInput;
     public Vector3 Offset;
     public Rigidbody Rigidbody;
@@ -25,30 +25,42 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private AnimationCurve afterFartStunCurve;
     public float FartChargeScalar;
+    public ParticleSystem StunParticles;
+
+    [SerializeField, Tooltip("The audio source belonging to the stun sound effect.")]
+    private AudioSource stunAudioSource;
+
+    public Transform FartIndicatorPivot;
+    public MeshRenderer FartIndicator;
 
     private GameManager gameManager;
     private Coroutine currentBounceCoroutine;
     private Coroutine currentStunCoroutine;
+    private Coroutine currentFartCoroutine;
     public PlayerMoveState moveState;
 
     private Vector2 GetMoveInput => playerInput.actions.FindAction("Move").ReadValue<Vector2>();
-
-
-    private Vector3 latestMovementDirection;
 
     private void Awake()
     {
         gameManager = FindAnyObjectByType<GameManager>();
         playerInput = GetComponent<PlayerInput>();
+        FartIndicator.material.SetFloat("_Percentage", 0);
     }
-    
+
     private IEnumerator StunCoroutine(float time)
     {
-        moveState |= PlayerMoveState.Stunned;
+        StunParticles.Play();
+        stunAudioSource.Play();
+
+        moveState = PlayerMoveState.Stunned;
+        Rigidbody.velocity = Vector3.zero;
 
         yield return new WaitForSeconds(time);
 
-        moveState &= ~PlayerMoveState.Stunned;
+        moveState = PlayerMoveState.None;
+        StunParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        stunAudioSource.Stop();
     }
 
     private IEnumerator BounceCoroutine(Vector3 normal)
@@ -67,25 +79,43 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator FartChargeCoroutine()
     {
-        bool inputPressed = playerInput.actions.FindAction("FartCharge").IsPressed();
+        bool inputPressed = playerInput.actions.FindAction("ChargeFart").IsPressed();
         float chargeTime = 0f;
 
         moveState = PlayerMoveState.Stunned;
 
+        Vector2 input = GetMoveInput;
+        float angle = Mathf.Atan2(input.y, -input.x) * Mathf.Rad2Deg;
+        Vector3 forward = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+        Vector3 adjustedForward = Quaternion.Euler(Offset) * forward;
+
         while (inputPressed)
         {
             chargeTime += Time.deltaTime;
-            inputPressed = playerInput.actions.FindAction("FartCharge").IsPressed();
+            inputPressed = playerInput.actions.FindAction("ChargeFart").IsPressed();
+            FartIndicator.material.SetFloat("_Percentage", chargeTime);
             yield return null;
         }
 
+        playerFarts.onEpicFartDooDoo.Invoke(FartHandler.FartSize.Large);
+        playerFarts.streamParticleSystem.transform.localEulerAngles = playerFarts.GetFartRotation();
+        playerFarts.streamParticleSystem.Play();
+
         //Get total charge force from curve sampled by time
         float force = fartChargeCurve.Evaluate(chargeTime) * FartChargeScalar;
-        Rigidbody.AddForce(force * latestMovementDirection.normalized, ForceMode.Impulse);
-        playerFarts.ExecuteFart(CodeKriebels.Audio.FartHandler.FartSize.Large);
+
+        Rigidbody.AddForce(force * FartIndicatorPivot.transform.forward.normalized, ForceMode.Impulse);
+
+        FartIndicator.material.SetFloat("_Percentage", 0);
+
+        FartHandler.Instance.PlayFart(FartHandler.FartSize.Small);
+        Player.ExecuteHapticFeedback(playerFarts.hapticLowFrequency, playerFarts.hapticHighFrequency, playerFarts.hapticDuration);
 
         yield return new WaitForSeconds(afterFartStunCurve.Evaluate(chargeTime));
+        playerFarts.streamParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
         moveState = PlayerMoveState.None;
+        currentFartCoroutine = null;
     }
 
 
@@ -95,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
 
         currentStunCoroutine = StartCoroutine(StunCoroutine(time));
     }
+
 
     private void DoBounce(Vector3 normal)
     {
@@ -109,33 +140,34 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         Vector3 n = coll.contacts[0].normal;
-        if (!moveState.HasFlag(PlayerMoveState.Bounce) && n.y < 0.5f)
+
+        if (coll.gameObject.CompareTag("Obstacle"))
         {
-            DoBounce(n * coll.impulse.magnitude);
+            playerFarts.ExecuteFart(FartHandler.FartSize.Medium);
+            //DoBounce(n * coll.impulse.magnitude);
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        Vector2 input = GetMoveInput;
+        float angle = Mathf.Atan2(input.y, -input.x) * Mathf.Rad2Deg;
+        Vector3 forward = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+        Vector3 adjustedForward = Quaternion.Euler(Offset) * forward;
+
+        FartIndicatorPivot.transform.forward = adjustedForward;
+
         if (moveState != PlayerMoveState.None)
             return;
 
-        Vector2 playerInput = GetMoveInput;
-        Vector3 inputVector = Vector3.zero;
+        bool inputPressed = playerInput.actions.FindAction("ChargeFart").IsPressed();
 
-        if (playerInput.magnitude > 0.1f)
+        if (inputPressed)
         {
-            float angle = Mathf.Atan2(playerInput.y, -playerInput.x) * Mathf.Rad2Deg;
-            Vector3 forward = Quaternion.Euler(0, angle, 0) * Vector3.forward;
-            Vector3 adjustedForward = Quaternion.Euler(Offset) * forward * gameManager.playerSettings.maxVelocity;
+            if (currentFartCoroutine != null)
+                return;
 
-            latestMovementDirection = adjustedForward * (1 - Mathf.Clamp01(Vector3.Dot(Rigidbody.velocity, forward.normalized)));
-            Rigidbody.MoveRotation(Quaternion.LookRotation(latestMovementDirection, Vector3.up));
-
-            inputVector = latestMovementDirection;
+            currentFartCoroutine = StartCoroutine(FartChargeCoroutine());
         }
-
-        Rigidbody.AddForce(inputVector, ForceMode.VelocityChange);
     }
-
 }

@@ -64,13 +64,31 @@ public class PlayerToSprite : MonoBehaviour
         SW//South-west
     }
 
+#if UNITY_EDITOR
+    [SerializeField]
+    private bool EDITOR_useDebugDirection;
+
+    [SerializeField]
+    private Direction EDITOR_direction;
+#endif
+
+
     /// <summary>
     /// Called each frame, used for updating visuals
     /// </summary>
     public void LateUpdate()
     {
+        Direction current = default;
+
         //Get the current heading direction
-        Direction current = GetCurrentDirection();
+#if UNITY_EDITOR
+        if (EDITOR_useDebugDirection)
+            current = EDITOR_direction;
+        else
+#endif
+            current = GetCurrentDirection();
+
+
         int index = (int)current;
 
         if (forwardReference != null)
