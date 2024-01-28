@@ -104,6 +104,10 @@ public class PlayerManager : MonoBehaviour
 
         //Inform user when they can start the game
         pressStartToPlayText.gameObject.SetActive(players.Count >= 2);
+        Camera camera = Camera.main;
+        camera.nearClipPlane = 100;
+        camera.clearFlags = CameraClearFlags.SolidColor;
+        camera.backgroundColor = Color.black;
     }
 
     private void OnPlayerLeft(PlayerInput obj)
