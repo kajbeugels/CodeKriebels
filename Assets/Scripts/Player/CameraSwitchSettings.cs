@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraSwitcher : MonoBehaviour
+public class CameraSwitchSettings : MonoBehaviour
 {
     private Camera camera
     {

@@ -105,7 +105,7 @@ public class PlayerManager : MonoBehaviour
         //Inform user when they can start the game
         pressStartToPlayText.gameObject.SetActive(players.Count >= 2);
 
-        Camera.main.GetComponent<CameraSwitcher>().ToggleCameraSettings(false);
+        Camera.main.GetComponent<CameraSwitchSettings>().ToggleCameraSettings(false);
     }
 
     private void OnPlayerLeft(PlayerInput obj)
