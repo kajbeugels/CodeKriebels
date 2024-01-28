@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Transfer the index of sprite package used from the winning player to the winning player visuals
-        winningPlayerVisuals.ChangeUsingSpritePackage(winningPlayer.PlayerToSprite.usingSpritePackageIndex);
+        winningPlayerVisuals?.ChangeUsingSpritePackage(winningPlayer.PlayerToSprite.usingSpritePackageIndex);
 
         //Start timeline sequence for the game outro
         timelineDirector.Play(gameOutroSequence, DirectorWrapMode.Hold);
