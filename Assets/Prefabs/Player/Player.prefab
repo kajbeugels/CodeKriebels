@@ -113,7 +113,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513866760821569288}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8394d06c5947b3498d9158f12589487, type: 3}
   m_Name: 
@@ -173,6 +173,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   FartChargeScalar: 1500
   StunParticles: {fileID: 5791811111997961496}
+  stunAudioSource: {fileID: 7019611287703434969}
   FartIndicatorPivot: {fileID: 3519035337667061847}
   FartIndicator: {fileID: 7469627444664414910}
   moveState: 0
@@ -717,5 +718,10 @@ Transform:
 --- !u!198 &5791811111997961496 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1758593942231093400, guid: 55fc5e17f2f12a7429648165d54315f5, type: 3}
+  m_PrefabInstance: {fileID: 5190225235833185664}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &7019611287703434969 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2985263250363929433, guid: 55fc5e17f2f12a7429648165d54315f5, type: 3}
   m_PrefabInstance: {fileID: 5190225235833185664}
   m_PrefabAsset: {fileID: 0}

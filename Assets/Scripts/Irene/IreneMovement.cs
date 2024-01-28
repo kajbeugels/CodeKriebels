@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class IreneMovement : MonoBehaviour
@@ -9,11 +8,13 @@ public class IreneMovement : MonoBehaviour
     public Transform areaOfInterest;
     public float areaOfInterestRadius = 4f;
 
-
     private Rigidbody Rigidbody;
     private Vector3 targetPostion;
 
-    private void GetRandomTargetPosition ()
+    internal Vector3 MoveVector { get; private set; }
+
+
+    private void GetRandomTargetPosition()
     {
         var offset = Random.insideUnitSphere;
         offset = new Vector3(offset.x, 0f, offset.z) * 5f;
@@ -25,13 +26,13 @@ public class IreneMovement : MonoBehaviour
         targetPostion = Vector3.Lerp(targetPostion, areaOfInterest.position, Mathf.Sqrt(areaOfInterestDistance / areaOfInterestRadius));
     }
 
-    private void Awake ()
+    private void Awake()
     {
         StartCoroutine(GetRandomOffsetCoroutine());
         Rigidbody = GetComponent<Rigidbody>();
     }
 
-    private IEnumerator GetRandomOffsetCoroutine ()
+    private IEnumerator GetRandomOffsetCoroutine()
     {
         while (true)
         {
@@ -41,18 +42,17 @@ public class IreneMovement : MonoBehaviour
         }
     }
 
-
     private void FixedUpdate()
     {
         Vector3 input = targetPostion - transform.position;
 
         input = Mathf.Clamp01(input.magnitude) * input.normalized;
 
-        Vector3 moveVector = input * maxVelocity * (1 - Mathf.Clamp01(Vector3.Dot(Rigidbody.velocity, input.normalized)));
+        MoveVector = input * maxVelocity * (1 - Mathf.Clamp01(Vector3.Dot(Rigidbody.velocity, input.normalized)));
 
-        Rigidbody.AddForce(transform.InverseTransformVector(moveVector), ForceMode.VelocityChange);
+        Rigidbody.AddForce(transform.InverseTransformVector(MoveVector), ForceMode.VelocityChange);
 
         Debug.DrawLine(transform.position, targetPostion, Color.red, Time.deltaTime);
-        Debug.DrawLine(transform.position, transform.position + moveVector.normalized, Color.blue, Time.deltaTime);
+        Debug.DrawLine(transform.position, transform.position + MoveVector.normalized, Color.blue, Time.deltaTime);
     }
 }
