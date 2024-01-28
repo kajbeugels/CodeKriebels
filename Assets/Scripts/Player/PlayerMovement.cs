@@ -133,9 +133,11 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         Vector3 n = coll.contacts[0].normal;
-        if (!moveState.HasFlag(PlayerMoveState.Bounce) && n.y < 0.5f)
+
+        if (coll.gameObject.CompareTag("Obstacle"))
         {
-            DoBounce(n * coll.impulse.magnitude);
+            playerFarts.ExecuteFart(FartHandler.FartSize.Medium);
+            //DoBounce(n * coll.impulse.magnitude);
         }
     }
 
