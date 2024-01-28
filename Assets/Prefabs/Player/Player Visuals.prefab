@@ -1189,6 +1189,14 @@ PrefabInstance:
       propertyPath: ClampVelocityModule.drag.maxCurve.m_Curve.Array.data[1].outSlope
       value: 0.100786164
       objectReference: {fileID: 0}
+    - target: {fileID: 7910124785310917823, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
+      propertyPath: playerToSprite
+      value: 
+      objectReference: {fileID: 4212417506764432542}
+    - target: {fileID: 7910124785310917823, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
+      propertyPath: streamParticleSystem
+      value: 
+      objectReference: {fileID: 3428201081396095280}
     - target: {fileID: 8800047477323888153, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1232,55 +1240,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 61646194380079660, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2951209732066913604}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
---- !u!1 &2496778393196390710 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 61646194380079660, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
-  m_PrefabInstance: {fileID: 2485235320347487002}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2951209732066913604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2496778393196390710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8211097ad5dc1ad43b5624fc02c32709, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerToSprite: {fileID: 4212417506764432542}
-  particleSystem: {fileID: 3359683352398754854}
-  streamParticleSystem: {fileID: 3428201081396095280}
-  fartInterval: {x: 1, y: 4}
-  hapticLowFrequency: 0.25
-  hapticHighFrequency: 0.75
-  hapticDuration: 0.5
-  onEpicFartDooDoo:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 438226040759532825}
-        m_TargetAssemblyTypeName: PlayerAss, Assembly-CSharp
-        m_MethodName: DoFart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!198 &3359683352398754854 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 928491863371259708, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
-  m_PrefabInstance: {fileID: 2485235320347487002}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6367343120306576643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8800047477323888153, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
