@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private AnimationCurve afterFartStunCurve;
     public float FartChargeScalar;
+    public ParticleSystem StunParticles;
 
     public Transform FartIndicatorPivot;
     public MeshRenderer FartIndicator;
@@ -49,11 +50,14 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator StunCoroutine(float time)
     {
-        moveState |= PlayerMoveState.Stunned;
+        StunParticles.Play();
+        moveState = PlayerMoveState.Stunned;
+        Rigidbody.velocity = Vector3.zero;
 
         yield return new WaitForSeconds(time);
 
-        moveState &= ~PlayerMoveState.Stunned;
+        moveState = PlayerMoveState.None;
+        StunParticles.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     private IEnumerator BounceCoroutine(Vector3 normal)
@@ -101,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
         FartIndicator.material.SetFloat("_Percentage", 0);
 
-        FartHandler.Instance.PlayFart(FartHandler.FartSize.Large);
+        FartHandler.Instance.PlayFart(FartHandler.FartSize.Small);
         Player.ExecuteHapticFeedback(playerFarts.hapticLowFrequency, playerFarts.hapticHighFrequency, playerFarts.hapticDuration);
 
         yield return new WaitForSeconds(afterFartStunCurve.Evaluate(chargeTime));

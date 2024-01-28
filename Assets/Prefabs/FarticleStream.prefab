@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9107536239881015967}
   - component: {fileID: 623415485160569786}
   - component: {fileID: 6048291516079039672}
-  - component: {fileID: 2436653646582714649}
   m_Layer: 0
   m_Name: FarticleStream
   m_TagString: Untagged
@@ -107,7 +106,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -4840,36 +4839,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2436653646582714649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 333118598114125482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8211097ad5dc1ad43b5624fc02c32709, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerToSprite: {fileID: 0}
-  particleSystem: {fileID: 623415485160569786}
-  fartInterval: {x: 1, y: 4}
-  hapticLowFrequency: 0.25
-  hapticHighFrequency: 0.75
-  hapticDuration: 0.5
-  onEpicFartDooDoo:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerAss, Assembly-CSharp
-        m_MethodName: DoFart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
