@@ -21,6 +21,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField, Tooltip("Reference to the input actions of the player")]
     internal InputActionAsset inputActions;
 
+    [SerializeField,Tooltip("COLORS")]
+    internal Color[] PlayerColors;
+
     /// <summary>
     /// List of all players in the game
     /// </summary>
@@ -52,6 +55,16 @@ public class PlayerManager : MonoBehaviour
         inputActions.FindAction("StartGame").performed += StartGamePressed;
     }
 
+    public int GetPlayerIndex(Player p )
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i] == p)
+                return i;
+        }
+
+        return 0;
+    }
     /// <summary>
     /// Callback that gets invoked whenever a player has pressed the start game button
     /// </summary>
@@ -80,7 +93,12 @@ public class PlayerManager : MonoBehaviour
     private void OnPlayerJoined(PlayerInput obj)
     {
         if (GameManager.Instance.currentGameState != GameManager.GameState.CharacterSelection)
+        {
+            Destroy(obj);
             return;
+
+        }
+
 
         Player p = obj.GetComponent<Player>();
 
@@ -105,7 +123,7 @@ public class PlayerManager : MonoBehaviour
         //Inform user when they can start the game
         pressStartToPlayText.gameObject.SetActive(players.Count >= 2);
 
-        Camera.main.GetComponent<CameraSwitchSettings>().ToggleCameraSettings(false);
+        GameManager.Instance.CameraSetings.ToggleCameraSettings(false);
     }
 
     private void OnPlayerLeft(PlayerInput obj)
