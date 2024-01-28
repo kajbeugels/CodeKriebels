@@ -1471,6 +1471,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 1758593942231093400, guid: 55fc5e17f2f12a7429648165d54315f5, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6837405093587956412, guid: 55fc5e17f2f12a7429648165d54315f5, type: 3}
       propertyPath: m_Name
       value: Stun stars
