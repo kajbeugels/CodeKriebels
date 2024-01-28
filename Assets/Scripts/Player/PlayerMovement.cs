@@ -1,11 +1,8 @@
 using CodeKriebels.Audio;
 using CodeKriebels.Player;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public enum PlayerMoveState : int
 {
@@ -30,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
     public float FartChargeScalar;
     public ParticleSystem StunParticles;
 
+    [SerializeField, Tooltip("The audio source belonging to the stun sound effect.")]
+    private AudioSource stunAudioSource;
+
     public Transform FartIndicatorPivot;
     public MeshRenderer FartIndicator;
 
@@ -51,13 +51,16 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator StunCoroutine(float time)
     {
         StunParticles.Play();
+        stunAudioSource.Play();
+
         moveState = PlayerMoveState.Stunned;
         Rigidbody.velocity = Vector3.zero;
 
         yield return new WaitForSeconds(time);
 
         moveState = PlayerMoveState.None;
-        StunParticles.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
+        StunParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        stunAudioSource.Stop();
     }
 
     private IEnumerator BounceCoroutine(Vector3 normal)
