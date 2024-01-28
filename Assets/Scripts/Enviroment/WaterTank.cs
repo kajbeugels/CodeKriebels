@@ -9,6 +9,9 @@ public class WaterTank : MonoBehaviour
     private GameObject Water;
     [SerializeField]
     private Transform spawnPosition;
+
+    public AudioSource Audio;
+
     private bool isSpawned = false;
     // Update is called once per frame
     void Update()
@@ -17,6 +20,7 @@ public class WaterTank : MonoBehaviour
         {
             Water.SetActive(true);
             Water.transform.position = new Vector3(spawnPosition.position.x,0,spawnPosition.position.z);
+            Audio.Play();
             isSpawned = true;
         }
     }

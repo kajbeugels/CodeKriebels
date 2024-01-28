@@ -862,10 +862,10 @@ MonoBehaviour:
     - {fileID: 0}
     <HandSprite>k__BackingField: {fileID: 21300000, guid: f4811e74c3f817a488b24b141c094370, type: 3}
   - <HeadSprites>k__BackingField:
-    - {fileID: 21300000, guid: 466cfbae61255704f964597c37152454, type: 3}
-    - {fileID: 21300000, guid: 3412e37fc515af04eac0dd4f0418e49f, type: 3}
     - {fileID: 21300000, guid: 1bebe31a051f8904b9aa67e01a5d5015, type: 3}
     - {fileID: 21300000, guid: f1677f7e3df600a4d899a6c74acace98, type: 3}
+    - {fileID: 21300000, guid: 466cfbae61255704f964597c37152454, type: 3}
+    - {fileID: 21300000, guid: 3412e37fc515af04eac0dd4f0418e49f, type: 3}
     <BodySprites>k__BackingField:
     - {fileID: 21300000, guid: 153316c432d9c6146b8117f3a70dc56c, type: 3}
     - {fileID: 21300000, guid: ff9ae1f9ca8c5a54d8078c84d5c0cc84, type: 3}
@@ -877,6 +877,9 @@ MonoBehaviour:
     - {fileID: 21300000, guid: f230be16b6ced9846a01d1414fe29132, type: 3}
     - {fileID: 0}
     <HandSprite>k__BackingField: {fileID: 21300000, guid: bfc328c3c8e3b09479e13cd75c12ee99, type: 3}
+  usingSpritePackageIndex: 0
+  EDITOR_useDebugDirection: 0
+  EDITOR_direction: 0
 --- !u!1 &8488681910280165142
 GameObject:
   m_ObjectHideFlags: 0
