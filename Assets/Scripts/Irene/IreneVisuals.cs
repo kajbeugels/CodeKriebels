@@ -2,16 +2,16 @@ using System;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class PlayerToSprite : MonoBehaviour
+public class IreneVisuals : MonoBehaviour
 {
-    [SerializeField, Tooltip("Transform that serves as reference for forward vector")]
-    public Transform forwardReference;
+    [SerializeField, Tooltip("The Irene Movement component")]
+    private IreneMovement ireneMovement;
 
     [SerializeField, Tooltip("Local positions for tie placement")]
     private Vector3 localTiePositionRight, localTiePositionLeft;
 
     [SerializeField, Tooltip("The root objects")]
-    private GameObject rootAss, rootHand, rootFeet;
+    private GameObject rootHand, rootFeet;
 
     [SerializeField]
     private int leftHandLayer, rightHandLayer, altLeftHandLayer, altRightHandLayer;
@@ -31,26 +31,17 @@ public class PlayerToSprite : MonoBehaviour
     [SerializeField, Tooltip("Reference to the hand sprite renderers")]
     private SpriteRenderer leftHandRenderer, rightHandRenderer;
 
-    [Serializable]
-    internal struct SpritePackage
-    {
-        [field: SerializeField, Tooltip("Head sprites for each direction")]
-        internal Sprite[] HeadSprites { get; private set; }
+    [field: SerializeField, Tooltip("Head sprites for each direction")]
+    internal Sprite[] HeadSprites { get; private set; }
 
-        [field: SerializeField, Tooltip("Head sprites for each direction")]
-        internal Sprite[] BodySprites { get; private set; }
+    [field: SerializeField, Tooltip("Head sprites for each direction")]
+    internal Sprite[] BodySprites { get; private set; }
 
-        [field: SerializeField, Tooltip("Tie sprites for each direction")]
-        internal Sprite[] TieSprites { get; private set; }
+    [field: SerializeField, Tooltip("Tie sprites for each direction")]
+    internal Sprite[] TieSprites { get; private set; }
 
-        [field: SerializeField, Tooltip("Hand sprites for each direction.")]
-        internal Sprite HandSprite { get; private set; }
-    }
-
-    [SerializeField, Tooltip("All the sprite packages belonging to this player.")]
-    private SpritePackage[] spritePackages;
-
-    internal int usingSpritePackageIndex;
+    [field: SerializeField, Tooltip("Hand sprites for each direction.")]
+    internal Sprite HandSprite { get; private set; }
 
 
     /// <summary>
@@ -72,7 +63,6 @@ public class PlayerToSprite : MonoBehaviour
     private Direction EDITOR_direction;
 #endif
 
-
     /// <summary>
     /// Called each frame, used for updating visuals
     /// </summary>
@@ -88,18 +78,13 @@ public class PlayerToSprite : MonoBehaviour
 #endif
             current = GetCurrentDirection();
 
-
         int index = (int)current;
 
-        if (forwardReference != null)
-            transform.position = forwardReference.transform.position;
-
-
         //Assign sprite based on direction
-        headRenderer.sprite = spritePackages[usingSpritePackageIndex].HeadSprites[index];
-        bodyRenderer.sprite = spritePackages[usingSpritePackageIndex].BodySprites[index];
-        tieRenderer.sprite = spritePackages[usingSpritePackageIndex].TieSprites[index];
-        leftHandRenderer.sprite = rightHandRenderer.sprite = spritePackages[usingSpritePackageIndex].HandSprite;
+        headRenderer.sprite = HeadSprites[index];
+        bodyRenderer.sprite = BodySprites[index];
+        tieRenderer.sprite = TieSprites[index];
+        leftHandRenderer.sprite = rightHandRenderer.sprite = HandSprite;
 
         //Hand logic
         if (current == Direction.NE)
@@ -123,21 +108,10 @@ public class PlayerToSprite : MonoBehaviour
             rightHandRenderer.sortingOrder = rightHandLayer;
         }
 
-        //Ass logic
-        if (current == Direction.NE)
-        {
-            rootAss.gameObject.SetActive(true);
-            rootAss.gameObject.transform.localScale = Vector3.one;
-        }
-        else if (current == Direction.SW)
+        //Tie logic
+        if (current == Direction.SW)
         {
             tieRenderer.gameObject.SetActive(true);
-            rootAss.gameObject.SetActive(true);
-            rootAss.gameObject.transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else
-        {
-            rootAss.gameObject.SetActive(false);
         }
 
         //Tie logic
@@ -167,15 +141,8 @@ public class PlayerToSprite : MonoBehaviour
             tieRenderer.gameObject.transform.localPosition = localTiePositionRight;
             tieRenderer.gameObject.SetActive(true);
         }
-    }
 
-    /// <summary>
-    /// Changes the sprite package index and thus changes the character.
-    /// </summary>
-    /// <param name="spritePackageIndex">The new index</param>
-    internal void ChangeUsingSpritePackage(int spritePackageIndex)
-    {
-        usingSpritePackageIndex = spritePackageIndex;
+        transform.localPosition = ireneMovement.transform.localPosition;
     }
 
     /// <summary>
@@ -183,7 +150,7 @@ public class PlayerToSprite : MonoBehaviour
     /// </summary>
     public Direction GetCurrentDirection()
     {
-        Vector3 f = forwardReference ? forwardReference.forward : Vector3.zero;
+        Vector3 f = ireneMovement.MoveVector;
         float angle = Mathf.Atan2(f.z, f.x) * Mathf.Rad2Deg;
 
         //Clamp angle in 0-360 range

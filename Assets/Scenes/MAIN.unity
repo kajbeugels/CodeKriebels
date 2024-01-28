@@ -22976,6 +22976,87 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4982732614064370517, guid: 4a401ce1e56421b46a6af16233299942, type: 3}
   m_PrefabInstance: {fileID: 1926304610}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1929726385
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 488603039866295099, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1588138761465518961, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885673442812024440, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3117564301982652241, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 44f54ff7f5368b946a1431d89586f6d6, type: 3}
+    - target: {fileID: 3386983498413067110, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531195822232186415, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_Name
+      value: Irene
+      objectReference: {fileID: 0}
+    - target: {fileID: 4869487906242057263, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7b11722ba8959a244b1547b201241af4, type: 3}
+    - target: {fileID: 5782905291102231337, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3c4649f6d865fa94faa637904468f0c7, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0210b46f92626864290caa7a51b6f455, type: 3}
 --- !u!1 &1932052920
 GameObject:
   m_ObjectHideFlags: 0
@@ -27413,3 +27494,4 @@ SceneRoots:
   - {fileID: 1912763524}
   - {fileID: 1754497193}
   - {fileID: 351846376}
+  - {fileID: 1929726385}
