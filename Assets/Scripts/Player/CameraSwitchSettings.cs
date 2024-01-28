@@ -4,42 +4,37 @@ using UnityEngine;
 
 public class CameraSwitchSettings : MonoBehaviour
 {
-    private Camera camera
-    {
-        get
-        {
-            return Camera.main;
-        }
-    }
+    public Camera Camera;
     private float nearClipPlane;
     private CameraClearFlags clearFlags;
     private Color backgroundColor;
+    private int originalMask;
 
     public void Start()
     {
+
         CacheCameraSettings();
     }
 
     public void CacheCameraSettings()
     {
-        nearClipPlane = camera.nearClipPlane;
-        clearFlags = camera.clearFlags;
-        backgroundColor = camera.backgroundColor;
+        originalMask = Camera.cullingMask;
+        nearClipPlane = Camera.nearClipPlane;
+        clearFlags = Camera.clearFlags;
+        backgroundColor = Camera.backgroundColor;
     }
 
     public void ToggleCameraSettings(bool show)
     {
-        if (!show)
+        if (!show) 
         {
-            camera.nearClipPlane = 100;
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor = Color.black;
+            Camera.cullingMask = 0;
+            Camera.clearFlags = CameraClearFlags.SolidColor;
         }
         else
         {
-            camera.nearClipPlane = nearClipPlane;
-            camera.clearFlags = clearFlags;
-            camera.backgroundColor = backgroundColor;
+            Camera.clearFlags = CameraClearFlags.Skybox;
+            Camera.cullingMask = originalMask;
         }
     }
 }

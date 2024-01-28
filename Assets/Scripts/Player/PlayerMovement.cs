@@ -32,6 +32,10 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform FartIndicatorPivot;
     public MeshRenderer FartIndicator;
+    public MeshRenderer FartIndicatorBase;
+
+    public Transform PoopEmoji;
+    public Transform start, end;
 
     private GameManager gameManager;
     private Coroutine currentBounceCoroutine;
@@ -46,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         gameManager = FindAnyObjectByType<GameManager>();
         playerInput = GetComponent<PlayerInput>();
         FartIndicator.material.SetFloat("_Percentage", 0);
+        FartIndicatorBase.material.SetColor("_PlayerColor", PlayerManager.Instance.PlayerColors[PlayerManager.Instance.GetPlayerIndex(Player)]);
     }
 
     private IEnumerator StunCoroutine(float time)
@@ -89,11 +94,23 @@ public class PlayerMovement : MonoBehaviour
         Vector3 forward = Quaternion.Euler(0, angle, 0) * Vector3.forward;
         Vector3 adjustedForward = Quaternion.Euler(Offset) * forward;
 
+        PoopEmoji.gameObject.SetActive(true);
+        PoopEmoji.transform.position = start.position;
+        PoopEmoji.transform.localScale = start.localScale;
+
         while (inputPressed)
         {
             chargeTime += Time.deltaTime;
             inputPressed = playerInput.actions.FindAction("ChargeFart").IsPressed();
             FartIndicator.material.SetFloat("_Percentage", chargeTime);
+
+
+            Vector3 position = Vector3.Lerp(start.position, end.position, chargeTime + (Time.deltaTime * 4));
+            Vector3 scale = Vector3.Lerp(start.localScale, end.localScale, chargeTime + (Time.deltaTime * 4));
+
+            PoopEmoji.transform.position = position;
+            PoopEmoji.transform.localScale = scale;
+
             yield return null;
         }
 
@@ -107,6 +124,10 @@ public class PlayerMovement : MonoBehaviour
         Rigidbody.AddForce(force * FartIndicatorPivot.transform.forward.normalized, ForceMode.Impulse);
 
         FartIndicator.material.SetFloat("_Percentage", 0);
+        PoopEmoji.gameObject.SetActive(false);
+
+
+
 
         FartHandler.Instance.PlayFart(FartHandler.FartSize.Small);
         Player.ExecuteHapticFeedback(playerFarts.hapticLowFrequency, playerFarts.hapticHighFrequency, playerFarts.hapticDuration);

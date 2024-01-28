@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
     private GameObject explanationCanvas;
 
     [SerializeField, Tooltip("Reference to the main-menu camera")]
-    private Camera mainMenuCamera;
+    public Camera mainMenuCamera;
+    public CameraSwitchSettings CameraSetings;
 
     [SerializeField, Tooltip("Reference to component which shows player visuals for the winning player")]
     private PlayerToSprite winningPlayerVisuals;
@@ -121,9 +122,6 @@ public class GameManager : MonoBehaviour
         //Set state to gameplay
         currentGameState = GameState.Gameplay;
 
-        //Disable the main camera
-        mainMenuCamera.gameObject.SetActive(false);
-
         //Start the game-start sequence with count-down to actual game-start
         timelineDirector.Play(gameStartSequence, DirectorWrapMode.Hold);
 
@@ -165,6 +163,9 @@ public class GameManager : MonoBehaviour
         {
             PlayerManager.Instance.players[i].PlayerMovement.enabled = false;
             PlayerManager.Instance.players[i].Input.camera.gameObject.SetActive(false);
+
+            if (PlayerManager.Instance.players[i] != winningPlayer)
+                PlayerManager.Instance.players[i].gameObject.SetActive(false);
 
             // Submit the winner in the analytics as well.
             if (Equals(winningPlayer.Input, PlayerManager.Instance.players[i].Input))
