@@ -22,6 +22,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Fart",
+                    "type": "Button",
+                    "id": "057f455e-bb98-4108-90bf-a2ccc2059585",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChargeFart",
+                    "type": "Button",
+                    "id": "54b13978-3264-433e-a962-7e2d72839b09",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -99,6 +117,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "StartGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e6a467a-6b68-4dcf-af1a-87a35e6bbb9e",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b3fb761c-ff0f-46e1-9960-335d30ff22e2",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeFart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

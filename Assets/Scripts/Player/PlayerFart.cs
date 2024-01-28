@@ -15,18 +15,21 @@ namespace CodeKriebels.Player
         [SerializeField, Tooltip("A reference to the particle system.")]
         private ParticleSystem particleSystem;
 
+        [SerializeField, Tooltip("A reference to the particle system.")]
+        public ParticleSystem streamParticleSystem;
+
         [SerializeField, Tooltip("The interval for farts")]
         private Vector2 fartInterval = new Vector2(0.5f, 1f);
 
         [Header("Haptic Settings")]
         [SerializeField, Tooltip("The left motor haptic feedback speed.")]
-        private float hapticLowFrequency = 0.25f;
+        public float hapticLowFrequency = 0.25f;
 
         [SerializeField, Tooltip("The right motor haptic feedback speed.")]
-        private float hapticHighFrequency = 0.75f;
+        public float hapticHighFrequency = 0.75f;
 
         [SerializeField, Tooltip("The haptic duration.")]
-        private float hapticDuration = 1f;
+        public float hapticDuration = 1f;
 
         internal Player parent;
 
@@ -35,7 +38,7 @@ namespace CodeKriebels.Player
 
         private void Awake()
         {
-            StartCoroutine(DoRandomFart());
+            //StartCoroutine(DoRandomFart());
         }
 
         private IEnumerator DoRandomFart()
@@ -52,26 +55,35 @@ namespace CodeKriebels.Player
 
         internal void ExecuteFart(FartHandler.FartSize size)
         {
-            PlayerToSprite.Direction direction = playerToSprite.GetCurrentDirection();
-            switch (direction)
-            {
-                case PlayerToSprite.Direction.SE:
-                    particleSystem.transform.localEulerAngles = new Vector3(0,90,0);
-                    break;
-                case PlayerToSprite.Direction.NE:
-                    particleSystem.transform.localEulerAngles = new Vector3(0, 180, 0);
-                    break;
-                case PlayerToSprite.Direction.NW:
-                    particleSystem.transform.localEulerAngles = new Vector3(0, 270, 0);
-                    break;
-                case PlayerToSprite.Direction.SW:
-                    particleSystem.transform.localEulerAngles = new Vector3(0, 0, 0);
-                    break;
-            }
-
+            particleSystem.transform.localEulerAngles = GetFartRotation();
             particleSystem.Play();
             FartHandler.Instance.PlayFart(size);
             parent.ExecuteHapticFeedback(hapticLowFrequency, hapticHighFrequency, hapticDuration);
+        }
+
+        internal Vector3 GetFartRotation()
+        {
+            PlayerToSprite.Direction direction = playerToSprite.GetCurrentDirection();
+            Vector3 vec = Vector2.zero;
+
+            switch (direction)
+            {
+                case PlayerToSprite.Direction.SE:
+                    vec = new Vector3(0, -232, 0);
+                    break;
+                case PlayerToSprite.Direction.NE:
+                    vec = new Vector3(0, -330, 0);
+                    break;
+                case PlayerToSprite.Direction.NW:
+                    vec = new Vector3(0, -165, 0);
+                    break;
+                case PlayerToSprite.Direction.SW:
+                    vec = new Vector3(0, -60, 0);
+                    break;
+            }
+
+
+            return vec;
         }
     }
 }

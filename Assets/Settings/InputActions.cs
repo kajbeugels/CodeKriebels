@@ -44,6 +44,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Fart"",
+                    ""type"": ""Button"",
+                    ""id"": ""057f455e-bb98-4108-90bf-a2ccc2059585"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChargeFart"",
+                    ""type"": ""Button"",
+                    ""id"": ""54b13978-3264-433e-a962-7e2d72839b09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,6 +141,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""StartGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e6a467a-6b68-4dcf-af1a-87a35e6bbb9e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3fb761c-ff0f-46e1-9960-335d30ff22e2"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChargeFart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -133,6 +173,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_StartGame = m_Player.FindAction("StartGame", throwIfNotFound: true);
+        m_Player_Fart = m_Player.FindAction("Fart", throwIfNotFound: true);
+        m_Player_ChargeFart = m_Player.FindAction("ChargeFart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -196,12 +238,16 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_StartGame;
+    private readonly InputAction m_Player_Fart;
+    private readonly InputAction m_Player_ChargeFart;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @StartGame => m_Wrapper.m_Player_StartGame;
+        public InputAction @Fart => m_Wrapper.m_Player_Fart;
+        public InputAction @ChargeFart => m_Wrapper.m_Player_ChargeFart;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -217,6 +263,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @StartGame.started += instance.OnStartGame;
             @StartGame.performed += instance.OnStartGame;
             @StartGame.canceled += instance.OnStartGame;
+            @Fart.started += instance.OnFart;
+            @Fart.performed += instance.OnFart;
+            @Fart.canceled += instance.OnFart;
+            @ChargeFart.started += instance.OnChargeFart;
+            @ChargeFart.performed += instance.OnChargeFart;
+            @ChargeFart.canceled += instance.OnChargeFart;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -227,6 +279,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @StartGame.started -= instance.OnStartGame;
             @StartGame.performed -= instance.OnStartGame;
             @StartGame.canceled -= instance.OnStartGame;
+            @Fart.started -= instance.OnFart;
+            @Fart.performed -= instance.OnFart;
+            @Fart.canceled -= instance.OnFart;
+            @ChargeFart.started -= instance.OnChargeFart;
+            @ChargeFart.performed -= instance.OnChargeFart;
+            @ChargeFart.canceled -= instance.OnChargeFart;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -248,5 +306,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnStartGame(InputAction.CallbackContext context);
+        void OnFart(InputAction.CallbackContext context);
+        void OnChargeFart(InputAction.CallbackContext context);
     }
 }
