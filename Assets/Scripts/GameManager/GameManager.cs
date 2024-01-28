@@ -1,3 +1,4 @@
+using CodeKriebels.Analytics;
 using CodeKriebels.Player;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("Reference to the main-menu camera")]
     private Camera mainMenuCamera;
 
-    [SerializeField,Tooltip("Reference to component which shows player visuals for the winning player")]
+    [SerializeField, Tooltip("Reference to component which shows player visuals for the winning player")]
     private PlayerToSprite winningPlayerVisuals;
 
     [Header("Game Sequencing")]
@@ -50,6 +51,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField, Tooltip("Timeline sequence in control of the sequencing of the game outro after a player wins")]
     private TimelineAsset gameOutroSequence;
+
+    // SURPRISE ANALYTICS!
+    private LocationCollection locationCollection = new LocationCollection();
+
 
     /// <summary>
     /// Determines the current state of the game-flow
@@ -73,6 +78,16 @@ public class GameManager : MonoBehaviour
         //Enable the main menu canvas
         mainMenuCanvas.SetActive(true);
         mainMenuCamera.gameObject.SetActive(true);
+    }
+
+    private void Update()
+    {
+        locationCollection.Update();
+    }
+
+    private void OnGUI()
+    {
+        locationCollection.OnGUI();
     }
 
     /// <summary>
@@ -143,6 +158,10 @@ public class GameManager : MonoBehaviour
         {
             PlayerManager.Instance.players[i].PlayerMovement.enabled = false;
             PlayerManager.Instance.players[i].Input.camera.gameObject.SetActive(false);
+
+            // Submit the winner in the analytics as well.
+            if (Equals(winningPlayer.Input, PlayerManager.Instance.players[i].Input))
+                locationCollection.SubmitWinner(i);
         }
 
         //Transfer the index of sprite package used from the winning player to the winning player visuals
