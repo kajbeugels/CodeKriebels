@@ -29,8 +29,6 @@ namespace CodeKriebels.Player
             Input.actions.FindAction("Fart").performed += (ctx) =>
             {
                 int i = Random.Range(0, 3);
-                Debug.Log(i);
-                Debug.Log((Audio.FartHandler.FartSize)i);
                 Fart.ExecuteFart((Audio.FartHandler.FartSize)i);
             };
         }
