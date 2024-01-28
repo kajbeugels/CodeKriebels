@@ -1102,6 +1102,10 @@ PrefabInstance:
       value: 33.79
       objectReference: {fileID: 0}
     - target: {fileID: 928491863371259708, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 928491863371259708, guid: 4bc3a4dcb7ef8054a85cc0c1ed81ace2, type: 3}
       propertyPath: ClampVelocityModule.dampen
       value: 0
       objectReference: {fileID: 0}
@@ -1293,6 +1297,10 @@ PrefabInstance:
     - target: {fileID: 333118598114125482, guid: fb608aacb05b49547a85204c9d257b6e, type: 3}
       propertyPath: m_Name
       value: FarticleStream
+      objectReference: {fileID: 0}
+    - target: {fileID: 623415485160569786, guid: fb608aacb05b49547a85204c9d257b6e, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9107536239881015967, guid: fb608aacb05b49547a85204c9d257b6e, type: 3}
       propertyPath: m_LocalPosition.x
