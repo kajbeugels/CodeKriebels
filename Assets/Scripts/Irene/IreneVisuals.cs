@@ -7,6 +7,9 @@ public class IreneVisuals : MonoBehaviour
     [SerializeField, Tooltip("The Irene Movement component")]
     private IreneMovement ireneMovement;
 
+    [SerializeField, Tooltip("The speech bubble reference.")]
+    private SpriteRenderer speechBubbleImage;
+
     [SerializeField, Tooltip("Local positions for tie placement")]
     private Vector3 localTiePositionRight, localTiePositionLeft;
 
@@ -143,6 +146,14 @@ public class IreneVisuals : MonoBehaviour
         }
 
         transform.localPosition = ireneMovement.transform.localPosition;
+    }
+
+    /// <summary>
+    /// Toggles the speech bubble.
+    /// </summary>
+    internal void ToggleSpeechBubble(bool isOn)
+    {
+        speechBubbleImage.gameObject.SetActive(isOn);
     }
 
     /// <summary>
