@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Tooltip("Reference to the Canvas gameObject containing the Main menu UI")]
     private GameObject mainMenuCanvas;
 
+    [SerializeField, Tooltip("Reference to the Explanation canvas.")]
+    private GameObject explanationCanvas;
+
     [SerializeField, Tooltip("Reference to the main-menu camera")]
     private Camera mainMenuCamera;
 
@@ -77,6 +80,7 @@ public class GameManager : MonoBehaviour
 
         //Enable the main menu canvas
         mainMenuCanvas.SetActive(true);
+        explanationCanvas.SetActive(true);
         mainMenuCamera.gameObject.SetActive(true);
     }
 
@@ -101,6 +105,9 @@ public class GameManager : MonoBehaviour
 
         //Disable menu UI
         mainMenuCanvas.SetActive(false);
+
+        // Disable explanation
+        explanationCanvas.SetActive(false);
 
         //Start the introduction sequence
         timelineDirector.Play(introductionSequence, DirectorWrapMode.Hold);
