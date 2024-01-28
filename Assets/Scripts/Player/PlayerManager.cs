@@ -94,9 +94,11 @@ public class PlayerManager : MonoBehaviour
         PlayerToSprite pts = Instantiate(playerVisualsPrefab);
         pts.forwardReference = p.transform;
         pts.ChangeUsingSpritePackage(p.Input.playerIndex);
-
+        pts.forwardReference = p.PlayerMovement.FartIndicatorPivot; 
+        
         p.Fart = pts.GetComponentInChildren<PlayerFart>();
         p.Fart.parent = p;
+        p.Movement.playerFarts = p.Fart;
 
         p.Ass = pts.GetComponentInChildren<PlayerAss>();
 
